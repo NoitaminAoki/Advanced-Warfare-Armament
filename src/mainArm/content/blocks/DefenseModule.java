@@ -69,9 +69,9 @@ public class DefenseModule {
 
             shoot = new ShootBarrel(){{
                 barrels = new float[]{
-                        0f, 2f, 0f,
-                        9f, 0f, 0f,
-                        -9f, 0f, 0f,
+                        0f, 3f, 0f,
+                        5f, 0f, 0f,
+                        -5f, 0f, 0f,
                 };
             }};
 
@@ -119,12 +119,12 @@ public class DefenseModule {
 
                 sprite = "large-orb";
                 trailEffect = Fx.missileTrail;
-                trailInterval = 3f;
+                trailInterval = 5f;
                 trailParam = 4f;
                 pierceCap = 2;
                 buildingDamageMultiplier = 0.5f;
                 fragOnHit = false;
-                speed = 5f;
+                speed = 7f;
                 damage = 100f;
                 lifetime = 120f;
                 width = height = 16f;
@@ -200,14 +200,14 @@ public class DefenseModule {
             shake = 2f;
             shootY = 4;
             outlineColor = Pal.darkOutline;
-            size = 3;
-            reload = 100f;
+            size = 4;
+            reload = 85f;
             cooldownTime = reload;
             recoil = 3f;
-            range = 420;
+            range = 460;
             shootCone = 20f;
             scaledHealth = 260;
-            rotateSpeed = 1.5f;
+            rotateSpeed = 7f;
             researchCostMultiplier = 0.04f;
 
             limitRange(9f);

@@ -11,10 +11,10 @@ author: "NoitaminAoki"
 main: "mainArm.ModModular"
 
 #the mod description as seen in the mod dialog
-description: "A Mindustry Java mod template."
+description: "A Mindustry Java mod that add new advanced defenses."
 
 #the mod version
-version: 0.5.1
+version: 0.5.2
 
 #the minimum game build required to run this mod
 minGameVersion: 145

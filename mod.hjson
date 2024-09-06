@@ -2,7 +2,7 @@
 displayName: "Advanced Warfare Armament"
 
 #the internal name of your mod
-name: "advanced-warfare-armament"
+name: "awt"
 
 #your name
 author: "NoitaminAoki"
@@ -14,7 +14,7 @@ main: "mainArm.ModModular"
 description: "A Mindustry Java mod that add new advanced defenses."
 
 #the mod version
-version: 0.6.0
+version: 0.6.5
 
 #the minimum game build required to run this mod
 minGameVersion: 145

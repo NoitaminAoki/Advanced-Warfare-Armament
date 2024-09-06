@@ -202,17 +202,23 @@ public class DefenseModule {
 
             recoils = 2;
             drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-barrels"){{
-                    progress = PartProgress.recoil;
-                    recoilIndex = 0;
-                    under = true;
-                    moveY = -1.5f;
-                }});
+                parts.add(
+                        new RegionPart("-barrels"){{
+                            progress = PartProgress.recoil;
+                            recoilIndex = 0;
+                            under = true;
+                            moveY = -1.0f;
+                        }},
+                        new RegionPart("-main") {{
+                            progress = PartProgress.recoil;
+                            moveY = -0.2f;
+                        }}
+                );
             }};
 
             shootSound = Sounds.shootAlt;
             outlineColor = Pal.darkOutline;
-            shootY = 3f;
+            shootY = 10f;
             size = 3;
             reload = 10f;
             recoilTime = reload * 2f;
@@ -229,7 +235,6 @@ public class DefenseModule {
             requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80));
             range = 385f;
 
-            shoot.firstShotDelay = 40f;
             ammo(
                     Items.titanium, new LaserBulletType(){{
                         colors = new Color[]{Pal.lancerLaser.cpy().a(0.4f), Pal.lancerLaser, Color.white};
@@ -238,7 +243,7 @@ public class DefenseModule {
 
                         length = 393f;
                         width = 40f;
-                        damage = 200f;
+                        damage = 280f;
 
                         lifetime = 65f;
                         largeHit = true;
@@ -250,9 +255,10 @@ public class DefenseModule {
                     }}
             );
             shoot = new ShootAlternate() {{
-                spread = 15f;
+                spread = 11f;
                 shots = 2;
                 barrels = 2;
+                firstShotDelay = 40f;
             }};
 
             recoil = 3f;

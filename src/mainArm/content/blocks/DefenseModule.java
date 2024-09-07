@@ -37,7 +37,6 @@ public class DefenseModule {
                     Items.graphite, new BasicBulletType(4f, 20){{
                         width = 9f;
                         height = 12f;
-                        reloadMultiplier = 0.6f;
                         ammoMultiplier = 4;
                         lifetime = 60f;
                     }},
@@ -248,7 +247,7 @@ public class DefenseModule {
 
                         length = 393f;
                         width = 40f;
-                        damage = 280f;
+                        damage = 250f;
 
                         lifetime = 65f;
                         largeHit = true;
@@ -323,7 +322,7 @@ public class DefenseModule {
                 trailInterval = 5f;
                 trailParam = 4f;
                 pierceCap = 2;
-                buildingDamageMultiplier = 0.5f;
+                buildingDamageMultiplier = 0.75f;
                 fragOnHit = false;
                 speed = 7f;
                 damage = 100f;
@@ -364,7 +363,7 @@ public class DefenseModule {
                         strokeFrom = 4f;
                         lifetime = 10f;
                     }};
-                    buildingDamageMultiplier = 0.3f;
+                    buildingDamageMultiplier = 0.5f;
                     homingPower = 0.2f;
                     homingRange = 160f;
                 }};
@@ -426,14 +425,14 @@ public class DefenseModule {
                         backSprite = "large-bomb-back";
                         sprite = "mine-bullet";
                         velocityRnd = 0.11f;
-                        collidesGround = true;
-                        collidesTiles = false;
+                        pierceBuilding = true;
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                         frontColor = Color.white;
-                        backColor = trailColor = hitColor = Color.blue;
+                        backColor = trailColor = hitColor = Color.magenta;
                         trailChance = 0.44f;
                         ammoMultiplier = 3f;
+                        buildingDamageMultiplier = 0.8f;
 
                         lifetime = 64f;
                         rotationOffset = 90f;
@@ -450,14 +449,14 @@ public class DefenseModule {
                         backSprite = "large-bomb-back";
                         sprite = "mine-bullet";
                         velocityRnd = 0.11f;
-                        collidesGround = true;
-                        collidesTiles = false;
+                        pierceBuilding = true;
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                         frontColor = Color.white;
                         backColor = trailColor = hitColor = Pal.surge;
                         trailChance = 0.44f;
                         ammoMultiplier = 9f;
+                        buildingDamageMultiplier = 0.8f;
 
                         lifetime = 64f;
                         rotationOffset = 90f;

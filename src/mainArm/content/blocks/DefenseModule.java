@@ -50,6 +50,11 @@ public class DefenseModule {
                         lifetime = 60f;
                     }}
             );
+            shoot = new ShootAlternate() {{
+                spread = 3.5f;
+                shots = 2;
+                barrels = 2;
+            }};
             recoils = 2;
             drawer = new DrawTurret();
 

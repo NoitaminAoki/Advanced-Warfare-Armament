@@ -31,7 +31,7 @@ public class DefenseModule {
     public static void load() {
 
         orverdriveduo = new ItemTurret("overdriveduo") {{
-            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon, 80));
+            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon, 80), true);
 
             ammo(
                     Items.graphite, new BasicBulletType(4f, 20){{
@@ -74,7 +74,7 @@ public class DefenseModule {
         }};
 
         gunmachina = new ItemTurret("gunmachina") {{
-           requirements(Category.turret, with(Items.copper, 200, Items.titanium, 300, Items.silicon, 50));
+           requirements(Category.turret, with(Items.copper, 200, Items.titanium, 300, Items.silicon, 50), true);
            ammo(
                    Items.graphite, new FlakBulletType(7f, 5) {{
                        ammoMultiplier = 6f;
@@ -156,7 +156,7 @@ public class DefenseModule {
         }};
 
         rapidwings = new ItemTurret("rapidwings") {{
-            requirements(Category.turret, with(Items.copper, 300, Items.lead, 300, Items.silicon, 150, Items.graphite, 250));
+            requirements(Category.turret, with(Items.copper, 300, Items.lead, 300, Items.silicon, 150, Items.graphite, 250), true);
 
             Effect sfe = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig);
 
@@ -236,7 +236,7 @@ public class DefenseModule {
         }};
 
         thunderlance = new ItemTurret("thunderlance") {{
-            requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80));
+            requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80), true);
             range = 385f;
 
             ammo(
@@ -305,7 +305,7 @@ public class DefenseModule {
         }};
 
         mightydao = new PowerTurret("mightydao") {{
-            requirements(Category.turret, with(Items.graphite, 200, Items.titanium, 200, Items.silicon, 350, Items.plastanium, 20, Items.surgeAlloy, 5));
+            requirements(Category.turret, with(Items.graphite, 200, Items.titanium, 200, Items.silicon, 350, Items.plastanium, 20, Items.surgeAlloy, 5), true);
 
             shootType = new BasicBulletType(){{
                 shootEffect = new MultiEffect(Fx.shootTitan, new WaveEffect(){{
@@ -414,7 +414,7 @@ public class DefenseModule {
         }};
 
         gatlingwings = new ItemTurret("gatlingwings") {{
-            requirements(Category.turret, with(Items.titanium, 650, Items.silicon, 150, Items.thorium, 50, Items.plastanium, 100));
+            requirements(Category.turret, with(Items.titanium, 650, Items.silicon, 150, Items.thorium, 50, Items.plastanium, 100), true);
 
             ammo(
                     Items.titanium, new BasicBulletType(){{

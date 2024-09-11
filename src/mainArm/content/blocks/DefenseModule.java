@@ -493,7 +493,7 @@ public class DefenseModule {
             shootSound = Sounds.blaster;
 
             ammo(
-                    Items.graphite,  new BasicBulletType(5f, 34){{
+                    Items.graphite,  new BasicBulletType(5f, 38){{
                         width = 7f;
                         height = 12f;
                         shootEffect = Fx.sparkShoot;

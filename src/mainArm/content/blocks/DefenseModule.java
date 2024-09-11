@@ -1,32 +1,44 @@
 package mainArm.content.blocks;
 
 import arc.graphics.Color;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
 import mindustry.content.*;
-import mindustry.entities.Effect;
+import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
+import mindustry.graphics.*;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.Weapon;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.DrawTurret;
 
 import static mindustry.type.ItemStack.*;
+import static arc.graphics.g2d.Draw.*;
+import static arc.graphics.g2d.Lines.*;
+
 
 public class DefenseModule {
     public static Block
 
     //Turrets
     //Turret - Base 2
-    orverdriveduo,
+    orverdriveduo, lightningswords,
     //Turret - Base 3
-    gunmachina, rapidwings, thunderlance,
+    gunmachina, rapidwings, thunderlance, lockmirrae, attaraxia,
     //Turret - Base 4
-    mightydao, gatlingwings;
+    gatlingwings,
+    //Turret - Base 5
+    mightydao;
 
     public static void load() {
 
@@ -71,6 +83,69 @@ public class DefenseModule {
             coolant = consumeCoolant(0.1f);
 
             limitRange();
+        }};
+
+        lightningswords = new PowerTurret("lightningswords") {{
+            requirements(Category.turret, with(Items.copper, 120, Items.lead, 95, Items.silicon, 80, Items.titanium, 50), true);
+            shootType = new RailBulletType(){{
+                length = 188f;
+                damage = 60f;
+                hitColor = Color.valueOf("feb380");
+                hitEffect = endEffect = Fx.hitBulletColor;
+                pierceDamageFactor = 0.8f;
+
+                smokeEffect = Fx.colorSpark;
+
+                endEffect = new Effect(14f, e -> {
+                    color(e.color);
+                    Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
+                });
+
+                shootEffect = new Effect(10, e -> {
+                    color(e.color);
+                    float w = 1.2f + 7 * e.fout();
+
+                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
+                    color(e.color);
+
+                    for(int i : Mathf.signs){
+                        Drawf.tri(e.x, e.y, w * 0.9f, 18f * e.fout(), e.rotation + i * 90f);
+                    }
+
+                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+                });
+
+                lineEffect = new Effect(20f, e -> {
+                    if(!(e.data instanceof Vec2 v)) return;
+
+                    color(e.color);
+                    stroke(e.fout() * 0.9f + 0.6f);
+
+                    Fx.rand.setSeed(e.id);
+                    for(int i = 0; i < 7; i++){
+                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                    }
+
+                    e.scaled(14f, b -> {
+                        stroke(b.fout() * 1.5f);
+                        color(e.color);
+                        Lines.line(e.x, e.y, v.x, v.y);
+                    });
+                });
+            }};
+
+            size = 2;
+            reload = 18f;
+            range = 180f;
+            shootY = 10f;
+            recoil = 1f;
+            rotateSpeed = 5f;
+            shootCone = 2f;
+            cooldownTime = 20f;
+            shoot = new ShootAlternate(3.5f);
+
+            drawer = new DrawTurret();
         }};
 
         gunmachina = new ItemTurret("gunmachina") {{
@@ -304,113 +379,153 @@ public class DefenseModule {
             consumePower(6f);
         }};
 
-        mightydao = new PowerTurret("mightydao") {{
-            requirements(Category.turret, with(Items.graphite, 200, Items.titanium, 200, Items.silicon, 350, Items.plastanium, 20, Items.surgeAlloy, 5), true);
+        lockmirrae = new ItemTurret("lockmirrae") {{
+            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon, 110, Items.graphite, 150), true);
+            shootSound = Sounds.missileSmall;
 
-            shootType = new BasicBulletType(){{
-                shootEffect = new MultiEffect(Fx.shootTitan, new WaveEffect(){{
-                    colorTo = Pal.surge;
-                    sizeTo = 26f;
-                    lifetime = 14f;
-                    strokeFrom = 4f;
-                }});
-                smokeEffect = Fx.shootSmokeTitan;
-                hitColor = Pal.surge;
+            ammo(
+                    Items.silicon, new BulletType(){{
+                        shootEffect = Fx.sparkShoot;
+                        smokeEffect = Fx.shootSmokeTitan;
+                        hitColor = Pal.suppress;
+                        shake = 1f;
+                        speed = 0f;
+                        keepVelocity = false;
+                        collidesAir = true;
 
-                sprite = "large-orb";
-                trailEffect = Fx.missileTrail;
-                trailInterval = 5f;
-                trailParam = 4f;
-                pierceCap = 2;
-                buildingDamageMultiplier = 0.75f;
-                fragOnHit = false;
-                speed = 7f;
-                damage = 100f;
-                lifetime = 120f;
-                width = height = 16f;
-                backColor = Pal.surge;
-                frontColor = Color.white;
-                shrinkX = shrinkY = 0f;
-                trailColor = Pal.surge;
-                trailLength = 12;
-                trailWidth = 2.2f;
-                despawnEffect = hitEffect = new ExplosionEffect(){{
-                    waveColor = Pal.surge;
-                    smokeColor = Color.gray;
-                    sparkColor = Pal.sap;
-                    waveStroke = 4f;
-                    waveRad = 40f;
-                }};
-                despawnSound = Sounds.dullExplosion;
+                        spawnUnit = new MissileUnitType("disrupt-missile"){{
+                            targetAir = true;
+                            speed = 4.6f;
+                            maxRange = 5f;
+                            lifetime = 60f * 5.5f;
+                            outlineColor = Pal.darkOutline;
+                            health = 120;
+                            homingDelay = 10f;
+                            lowAltitude = true;
+                            engineSize = 3f;
+                            engineColor = trailColor = Pal.sapBulletBack;
+                            engineLayer = Layer.effect;
+                            deathExplosionEffect = Fx.none;
+                            loopSoundVolume = 0.1f;
 
-                //TODO shoot sound
-                shootSound = Sounds.cannon;
+                            parts.add(new ShapePart(){{
+                                layer = Layer.effect;
+                                circle = true;
+                                y = -0.25f;
+                                radius = 1.5f;
+                                color = Pal.suppress;
+                                colorTo = Color.white;
+                                progress = PartProgress.life.curve(Interp.pow5In);
+                            }});
 
-                fragBullet = intervalBullet = new BasicBulletType(3f, 35){{
-                    width = 9f;
-                    hitSize = 5f;
-                    height = 15f;
-                    pierce = true;
-                    lifetime = 45f;
-                    pierceBuilding = true;
-                    hitColor = backColor = trailColor = Pal.surge;
-                    frontColor = Color.white;
-                    trailWidth = 2.1f;
-                    trailLength = 5;
-                    hitEffect = despawnEffect = new WaveEffect(){{
-                        colorFrom = colorTo = Pal.surge;
-                        sizeTo = 4f;
-                        strokeFrom = 4f;
-                        lifetime = 10f;
-                    }};
-                    buildingDamageMultiplier = 0.5f;
-                    homingPower = 0.2f;
-                    homingRange = 160f;
-                }};
+                            parts.add(new RegionPart("-fin"){{
+                                mirror = true;
+                                progress = PartProgress.life.mul(3f).curve(Interp.pow5In);
+                                moveRot = 32f;
+                                rotation = -6f;
+                                moveY = 1.5f;
+                                x = 3f / 4f;
+                                y = -6f / 4f;
+                            }});
 
-                bulletInterval = 3f;
-                intervalRandomSpread = 20f;
-                intervalBullets = 2;
-                intervalAngle = 180f;
-                intervalSpread = 300f;
+                            weapons.add(new Weapon(){{
+                                shootCone = 360f;
+                                mirror = false;
+                                reload = 1f;
+                                shootOnDeath = true;
+                                bullet = new ExplosionBulletType(140f, 25f){{
+                                    collidesAir = true;
+                                    suppressionRange = 140f;
+                                    shootEffect = new ExplosionEffect(){{
+                                        lifetime = 50f;
+                                        waveStroke = 5f;
+                                        waveLife = 8f;
+                                        waveColor = Color.white;
+                                        sparkColor = smokeColor = Pal.suppress;
+                                        waveRad = 40f;
+                                        smokeSize = 4f;
+                                        smokes = 7;
+                                        smokeSizeBase = 0f;
+                                        sparks = 10;
+                                        sparkRad = 40f;
+                                        sparkLen = 6f;
+                                        sparkStroke = 2f;
+                                    }};
+                                }};
+                            }});
+                        }};
+                    }}
+            );
+            shootWarmupSpeed = 0.1f;
+            shootY = 2f;
+            shootCone = 40f;
+            shoot.shots = 4;
+            shoot.shotDelay = 5f;
+            inaccuracy = 28f;
+            reload = 50f;
+            range = 295f;
+            scaledHealth = 280;
+            size = 3;
 
-                fragBullets = 20;
-                fragVelocityMin = 0.5f;
-                fragVelocityMax = 1.5f;
-                fragLifeMin = 0.5f;
-            }};
-            drawer = new DrawTurret("reinforced-"){{
-                parts.add(new RegionPart("-blade"){{
-                              progress = PartProgress.recoil;
-                              heatColor = Color.valueOf("ff6214");
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-launcher"){{
                               mirror = true;
                               under = true;
-                              moveX = 2f;
-                              moveY = -1f;
-                              moveRot = -7f;
+                              moveX = 0.15f;
+                              moveY = -0.5f;
+                              progress = PartProgress.recoil;
+                              heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
+                              heatColor = Color.sky.cpy().a(0.9f);
                           }},
-                        new RegionPart("-back") {{
-                            progress = PartProgress.recoil;
-                            moveY = (-5 * 0.25f) + (-8 * 0.25f);
+                        new RegionPart("-top"){{
+                            under = false;
+                            moveY = -1.5f;
                         }});
             }};
-            consumePower(3.5f);
 
-            inaccuracy = 1f;
-            shake = 2f;
-            shootY = 4;
-            outlineColor = Pal.darkOutline;
-            size = 4;
-            reload = 85f;
-            cooldownTime = reload;
-            recoil = 3f;
-            range = 460;
+            coolant = consume(new ConsumeLiquid(Liquids.water, 20f / 60f));
+            coolantMultiplier = 2.5f;
+            limitRange();
+        }};
+
+        attaraxia = new ItemTurret("thunderlance") {{
+            requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80), true);
+            shootSound = Sounds.blaster;
+
+            ammo(
+                    Items.graphite,  new BasicBulletType(5f, 34){{
+                        width = 7f;
+                        height = 12f;
+                        shootEffect = Fx.sparkShoot;
+                        smokeEffect = Fx.shootBigSmoke;
+                        hitColor = backColor = trailColor = Pal.suppress;
+                        frontColor = Color.white;
+                        trailWidth = 1.5f;
+                        trailLength = 5;
+                        hitEffect = despawnEffect = Fx.hitBulletColor;
+                    }}
+            );
+
+            shoot = new ShootHelix();
+
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-cannon"){{
+                    under = true;
+                    moveY = -0.5f;
+                    progress = PartProgress.recoil;
+                    heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
+                    heatColor = Color.sky.cpy().a(0.9f);
+                }});
+            }};
+
             shootCone = 20f;
-            scaledHealth = 260;
-            rotateSpeed = 5f;
-            researchCostMultiplier = 0.04f;
-
-            limitRange(9f);
+            health = 350;
+            inaccuracy = 1f;
+            rotateSpeed = 8f;
+            reload = 15f;
+            coolant = consumeCoolant(0.2f);
+            coolantMultiplier = 2.5f;
+            limitRange(9);
         }};
 
         gatlingwings = new ItemTurret("gatlingwings") {{
@@ -522,6 +637,114 @@ public class DefenseModule {
             coolantMultiplier = 2.5f;
 
             limitRange(5f);
+        }};
+
+        mightydao = new PowerTurret("mightydao") {{
+            requirements(Category.turret, with(Items.graphite, 200, Items.titanium, 200, Items.silicon, 350, Items.plastanium, 20, Items.surgeAlloy, 5), true);
+
+            shootType = new BasicBulletType(){{
+                shootEffect = new MultiEffect(Fx.shootTitan, new WaveEffect(){{
+                    colorTo = Pal.surge;
+                    sizeTo = 26f;
+                    lifetime = 14f;
+                    strokeFrom = 4f;
+                }});
+                smokeEffect = Fx.shootSmokeTitan;
+                hitColor = Pal.surge;
+
+                sprite = "large-orb";
+                trailEffect = Fx.missileTrail;
+                trailInterval = 5f;
+                trailParam = 4f;
+                pierceCap = 2;
+                buildingDamageMultiplier = 0.75f;
+                fragOnHit = false;
+                speed = 7f;
+                damage = 200f;
+                lifetime = 120f;
+                width = height = 16f;
+                backColor = Pal.surge;
+                frontColor = Color.white;
+                shrinkX = shrinkY = 0f;
+                trailColor = Pal.surge;
+                trailLength = 12;
+                trailWidth = 2.2f;
+                despawnEffect = hitEffect = new ExplosionEffect(){{
+                    waveColor = Pal.surge;
+                    smokeColor = Color.gray;
+                    sparkColor = Pal.sap;
+                    waveStroke = 4f;
+                    waveRad = 40f;
+                }};
+                despawnSound = Sounds.dullExplosion;
+
+                shootSound = Sounds.cannon;
+
+                fragBullet = intervalBullet = new BasicBulletType(3f, 45){{
+                    width = 9f;
+                    hitSize = 5f;
+                    height = 15f;
+                    pierce = true;
+                    lifetime = 45f;
+                    pierceBuilding = true;
+                    hitColor = backColor = trailColor = Pal.surge;
+                    frontColor = Color.white;
+                    trailWidth = 2.1f;
+                    trailLength = 5;
+                    hitEffect = despawnEffect = new WaveEffect(){{
+                        colorFrom = colorTo = Pal.surge;
+                        sizeTo = 4f;
+                        strokeFrom = 4f;
+                        lifetime = 10f;
+                    }};
+                    buildingDamageMultiplier = 0.5f;
+                    homingPower = 0.2f;
+                    homingRange = 160f;
+                }};
+
+                bulletInterval = 3f;
+                intervalRandomSpread = 20f;
+                intervalBullets = 2;
+                intervalAngle = 180f;
+                intervalSpread = 300f;
+
+                fragBullets = 20;
+                fragVelocityMin = 0.5f;
+                fragVelocityMax = 1.5f;
+                fragLifeMin = 0.5f;
+            }};
+            drawer = new DrawTurret("reinforced-"){{
+                parts.add(new RegionPart("-blade"){{
+                              progress = PartProgress.recoil;
+                              heatColor = Color.valueOf("ff6214");
+                              mirror = true;
+                              under = true;
+                              moveX = 2f;
+                              moveY = -1f;
+                              moveRot = -7f;
+                          }},
+                        new RegionPart("-back") {{
+                            progress = PartProgress.recoil;
+                            moveY = (-5 * 0.25f) + (-8 * 0.25f);
+                        }});
+            }};
+            consumePower(3.5f);
+
+            inaccuracy = 1f;
+            shake = 2f;
+            shootY = 4;
+            outlineColor = Pal.darkOutline;
+            size = 5;
+            reload = 85f;
+            cooldownTime = reload;
+            recoil = 3f;
+            range = 520;
+            shootCone = 20f;
+            scaledHealth = 460;
+            rotateSpeed = 5f;
+            researchCostMultiplier = 0.04f;
+
+            limitRange(9f);
         }};
     }
 }

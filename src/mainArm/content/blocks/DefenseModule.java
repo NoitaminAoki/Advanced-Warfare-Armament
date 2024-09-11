@@ -85,68 +85,68 @@ public class DefenseModule {
             limitRange();
         }};
 
-        lightningswords = new PowerTurret("lightningswords") {{
-            requirements(Category.turret, with(Items.copper, 120, Items.lead, 95, Items.silicon, 80, Items.titanium, 50), true);
-            shootType = new RailBulletType(){{
-                length = 188f;
-                damage = 60f;
-                hitColor = Color.valueOf("feb380");
-                hitEffect = endEffect = Fx.hitBulletColor;
-                pierceDamageFactor = 0.8f;
-
-                smokeEffect = Fx.colorSpark;
-
-                endEffect = new Effect(14f, e -> {
-                    color(e.color);
-                    Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
-                });
-
-                shootEffect = new Effect(10, e -> {
-                    color(e.color);
-                    float w = 1.2f + 7 * e.fout();
-
-                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
-                    color(e.color);
-
-                    for(int i : Mathf.signs){
-                        Drawf.tri(e.x, e.y, w * 0.9f, 18f * e.fout(), e.rotation + i * 90f);
-                    }
-
-                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
-                });
-
-                lineEffect = new Effect(20f, e -> {
-                    if(!(e.data instanceof Vec2 v)) return;
-
-                    color(e.color);
-                    stroke(e.fout() * 0.9f + 0.6f);
-
-                    Fx.rand.setSeed(e.id);
-                    for(int i = 0; i < 7; i++){
-                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
-                    }
-
-                    e.scaled(14f, b -> {
-                        stroke(b.fout() * 1.5f);
-                        color(e.color);
-                        Lines.line(e.x, e.y, v.x, v.y);
-                    });
-                });
-            }};
-
-            size = 2;
-            reload = 18f;
-            range = 180f;
-            shootY = 10f;
-            recoil = 1f;
-            rotateSpeed = 5f;
-            shootCone = 2f;
-            cooldownTime = 20f;
-            shoot = new ShootAlternate(3.5f);
-
-            drawer = new DrawTurret();
-        }};
+//        lightningswords = new PowerTurret("lightningswords") {{
+//            requirements(Category.turret, with(Items.copper, 120, Items.lead, 95, Items.silicon, 80, Items.titanium, 50), true);
+//            shootType = new RailBulletType(){{
+//                length = 188f;
+//                damage = 60f;
+//                hitColor = Color.valueOf("feb380");
+//                hitEffect = endEffect = Fx.hitBulletColor;
+//                pierceDamageFactor = 0.8f;
+//
+//                smokeEffect = Fx.colorSpark;
+//
+//                endEffect = new Effect(14f, e -> {
+//                    color(e.color);
+//                    Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
+//                });
+//
+//                shootEffect = new Effect(10, e -> {
+//                    color(e.color);
+//                    float w = 1.2f + 7 * e.fout();
+//
+//                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
+//                    color(e.color);
+//
+//                    for(int i : Mathf.signs){
+//                        Drawf.tri(e.x, e.y, w * 0.9f, 18f * e.fout(), e.rotation + i * 90f);
+//                    }
+//
+//                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+//                });
+//
+//                lineEffect = new Effect(20f, e -> {
+//                    if(!(e.data instanceof Vec2 v)) return;
+//
+//                    color(e.color);
+//                    stroke(e.fout() * 0.9f + 0.6f);
+//
+//                    Fx.rand.setSeed(e.id);
+//                    for(int i = 0; i < 7; i++){
+//                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+//                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+//                    }
+//
+//                    e.scaled(14f, b -> {
+//                        stroke(b.fout() * 1.5f);
+//                        color(e.color);
+//                        Lines.line(e.x, e.y, v.x, v.y);
+//                    });
+//                });
+//            }};
+//
+//            size = 2;
+//            reload = 18f;
+//            range = 180f;
+//            shootY = 10f;
+//            recoil = 1f;
+//            rotateSpeed = 5f;
+//            shootCone = 2f;
+//            cooldownTime = 20f;
+//            shoot = new ShootAlternate(3.5f);
+//
+//            drawer = new DrawTurret();
+//        }};
 
         gunmachina = new ItemTurret("gunmachina") {{
            requirements(Category.turret, with(Items.copper, 200, Items.titanium, 300, Items.silicon, 50), true);
@@ -488,7 +488,7 @@ public class DefenseModule {
             limitRange();
         }};
 
-        attaraxia = new ItemTurret("thunderlance") {{
+        attaraxia = new ItemTurret("attaraxia") {{
             requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80), true);
             shootSound = Sounds.blaster;
 

@@ -478,6 +478,7 @@ public class DefenseModule {
                 }});
             }};
 
+            shootY = 6f;
             shootCone = 20f;
             health = 350;
             size = 3;

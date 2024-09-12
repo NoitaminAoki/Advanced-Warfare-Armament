@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
@@ -88,8 +89,8 @@ public class DefenseModule {
         lightningswords = new PowerTurret("lightningswords") {{
             requirements(Category.turret, with(Items.copper, 120, Items.lead, 95, Items.silicon, 80, Items.titanium, 50), true);
             shootType = new RailBulletType(){{
-                length = 188f;
-                damage = 60f;
+                length = 218f;
+                damage = 80f;
                 hitColor = Color.valueOf("feb380");
                 hitEffect = endEffect = Fx.hitBulletColor;
                 pierceDamageFactor = 0.8f;
@@ -137,7 +138,7 @@ public class DefenseModule {
 
             size = 2;
             reload = 10f;
-            range = 180f;
+            range = 210f;
             shootY = 10f;
             recoil = 1f;
             rotateSpeed = 5f;
@@ -151,7 +152,7 @@ public class DefenseModule {
         gunmachina = new ItemTurret("gunmachina") {{
            requirements(Category.turret, with(Items.copper, 200, Items.titanium, 300, Items.silicon, 50), true);
            ammo(
-                   Items.graphite, new FlakBulletType(7f, 5) {{
+                   Items.graphite, new FlakBulletType(7f, 25) {{
                        ammoMultiplier = 6f;
                        shootEffect = Fx.shootSmall;
                        width = 6f;
@@ -160,7 +161,7 @@ public class DefenseModule {
                        reloadMultiplier = 1.7f;
                        collidesGround = true;
                    }},
-                   Items.pyratite, new FlakBulletType(7f, 15){{
+                   Items.pyratite, new FlakBulletType(7f, 55){{
                        shootEffect = Fx.shootSmall;
                        ammoMultiplier = 9f;
                        splashDamage = 20f;
@@ -170,7 +171,7 @@ public class DefenseModule {
                        status = StatusEffects.burning;
                        statusDuration = 30f;
                    }},
-                   Items.blastCompound, new FlakBulletType(7f, 20){{
+                   Items.blastCompound, new FlakBulletType(7f, 70){{
                        shootEffect = Fx.shootBig;
                        ammoMultiplier = 12f;
                        splashDamage = 45f;
@@ -180,7 +181,7 @@ public class DefenseModule {
                        status = StatusEffects.blasted;
                        statusDuration = 60f;
                    }},
-                   Items.surgeAlloy, new FlakBulletType(8.5f, 25){{
+                   Items.surgeAlloy, new FlakBulletType(8.5f, 95){{
                        ammoMultiplier = 15f;
                        splashDamage = 30f * 1.5f;
                        splashDamageRadius = 38f;
@@ -236,7 +237,7 @@ public class DefenseModule {
             Effect sfe = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig);
 
             ammo(
-                    Items.graphite, new BasicBulletType(7.5f, 15){{
+                    Items.graphite, new BasicBulletType(7.5f, 55){{
                         width = 12f;
                         hitSize = 7f;
                         height = 20f;
@@ -253,7 +254,7 @@ public class DefenseModule {
                         hitEffect = despawnEffect = Fx.hitBulletColor;
                         buildingDamageMultiplier = 0.5f;
                     }},
-                    Items.titanium, new BasicBulletType(8f, 30){{
+                    Items.titanium, new BasicBulletType(8f, 95){{
                         width = 13f;
                         height = 19f;
                         hitSize = 7f;
@@ -303,7 +304,7 @@ public class DefenseModule {
             recoilTime = reload * 2f;
             coolantMultiplier = 0.5f;
             recoil = 3f;
-            range = 260f;
+            range = 290f;
             inaccuracy = 1.5f;
             shootCone = 10f;
             scaledHealth = 280;
@@ -312,7 +313,7 @@ public class DefenseModule {
 
         thunderlance = new ItemTurret("thunderlance") {{
             requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80), true);
-            range = 385f;
+            range = 395f;
 
             ammo(
                     Items.titanium, new LaserBulletType(){{
@@ -320,13 +321,13 @@ public class DefenseModule {
                         //TODO merge
                         chargeEffect = new MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin);
 
-                        length = 393f;
+                        length = 403f;
                         width = 40f;
                         damage = 250f;
 
                         lifetime = 65f;
                         largeHit = true;
-                        buildingDamageMultiplier = 0.8f;
+                        buildingDamageMultiplier = 0.7f;
                         hitEffect = Fx.hitLancer;
                         collidesAir = true;
                         ammoMultiplier = 3f;
@@ -393,25 +394,74 @@ public class DefenseModule {
                         collidesAir = true;
 
                         spawnUnit = new MissileUnitType("lockmirrae-missile"){{
-                            targetAir = false;
-                            speed = 4.3f;
+                            targetAir = true;
+                            speed = 5.3f;
                             maxRange = 6f;
                             lifetime = 60f * 1.4f;
-                            outlineColor = Pal.darkOutline;
-                            engineColor = trailColor = Pal.sapBulletBack;
+                            outlineColor = Color.valueOf("272930FF");
+                            engineColor = trailColor = Color.valueOf("A9D8FFFF");
                             engineLayer = Layer.effect;
                             health = 95;
                             loopSoundVolume = 0.1f;
+                            missileAccelTime = 50;
+                            trailLength = 12;
 
                             weapons.add(new Weapon(){{
                                 shootCone = 360f;
                                 mirror = false;
                                 reload = 1f;
                                 shootOnDeath = true;
-                                bullet = new ExplosionBulletType(110f, 25f){{
-                                    shootEffect = Fx.massiveExplosion;
+                                bullet = new ExplosionBulletType(350f, 30f){{
                                     collidesAir = true;
+                                    shootEffect = new MultiEffect(
+                                            new WaveEffect() {{
+                                                lifetime = 15;
+                                                sizeFrom = 0;
+                                                sizeTo = 30;
+                                                strokeFrom = 7.5f;
+                                                strokeTo = 0;
+                                                colorFrom = Color.valueOf("A9D8FFFF");
+                                                colorTo = Color.valueOf("66B1FFFF");
+                                            }},
+                                            new ParticleEffect() {{
+                                                offset = 30;
+                                                particles = 5;
+                                                lifetime = 20;
+                                                length = 50;
+                                                interp = Interp.circleOut;
+                                                sizeInterp = Interp.pow5In;
+                                                cone = -360;
+                                                line = true;
+                                                strokeFrom = 1.5f;
+                                                strokeTo = 1.5f;
+                                                lenFrom = 5;
+                                                lenTo = 5;
+                                                lightColor = Color.valueOf("A9D8FFFF");
+                                                colorFrom = Color.valueOf("E1F2FFFF");
+                                                colorTo = Color.valueOf("A9D8FFFF");
+                                            }}
+                                    );
                                 }};
+                            }});
+
+                            abilities.add(new MoveEffectAbility(){{
+                                effect = new ParticleEffect(){{
+                                   particles = 4;
+                                   sizeFrom = 4;
+                                   sizeTo = 1;
+                                   length = 30;
+                                   lifetime = 30;
+                                   lightOpacity = 0;
+                                   interp = Interp.circleOut;
+                                   sizeInterp = Interp.pow5In;
+                                   colorFrom = Color.valueOf("66B1FFAa");
+                                   colorTo = Color.valueOf("78787870");
+                                   cone = 9;
+                                }};
+                                interval = 2;
+                                y = -6;
+                                rotateEffect = true;
+                                rotation = 180;
                             }});
                         }};
                     }}
@@ -419,11 +469,12 @@ public class DefenseModule {
             shootWarmupSpeed = 0.1f;
             shootY = 12f;
             shootCone = 40f;
-            shoot.shots = 4;
-            shoot.shotDelay = 5f;
+            shoot.shots = 6;
+            shoot.shotDelay = 3.5f;
+            shoot.firstShotDelay = 30f;
             inaccuracy = 28f;
-            reload = 80f;
-            range = 330f;
+            reload = 90f;
+            range = 420f;
             scaledHealth = 380;
             size = 3;
 
@@ -453,7 +504,7 @@ public class DefenseModule {
             shootSound = Sounds.blaster;
 
             ammo(
-                    Items.graphite,  new BasicBulletType(5f, 38){{
+                    Items.graphite,  new BasicBulletType(5f, 60){{
                         width = 7f;
                         height = 12f;
                         shootEffect = Fx.sparkShoot;
@@ -462,7 +513,13 @@ public class DefenseModule {
                         frontColor = Color.white;
                         trailWidth = 1.5f;
                         trailLength = 5;
-                        hitEffect = despawnEffect = Fx.hitBulletColor;
+                        despawnEffect = hitEffect = new ExplosionEffect(){{
+                            waveColor = Pal.sapBullet;
+                            smokeColor = Color.gray;
+                            sparkColor = Pal.sap;
+                            waveStroke = 4f;
+                            waveRad = 20f;
+                        }};
                     }}
             );
 
@@ -479,7 +536,7 @@ public class DefenseModule {
             }};
 
             shootY = 10f;
-            range = 310f;
+            range = 340f;
             shootCone = 20f;
             health = 350;
             size = 3;
@@ -496,7 +553,7 @@ public class DefenseModule {
 
             ammo(
                     Items.titanium, new BasicBulletType(){{
-                        damage = 35;
+                        damage = 55;
                         speed = 7f;
                         width = height = 12;
                         shrinkY = 0.2f;
@@ -520,7 +577,7 @@ public class DefenseModule {
                         hitEffect = despawnEffect = Fx.hitBulletColor;
                     }},
                     Items.surgeAlloy, new BasicBulletType(){{
-                        damage = 65;
+                        damage = 105;
                         speed = 8.5f;
                         width = height = 16;
                         shrinkY = 0.3f;
@@ -623,7 +680,7 @@ public class DefenseModule {
                 buildingDamageMultiplier = 0.75f;
                 fragOnHit = false;
                 speed = 7f;
-                damage = 200f;
+                damage = 450f;
                 lifetime = 120f;
                 width = height = 16f;
                 backColor = Pal.surge;
@@ -643,7 +700,7 @@ public class DefenseModule {
 
                 shootSound = Sounds.cannon;
 
-                fragBullet = intervalBullet = new BasicBulletType(3f, 45){{
+                fragBullet = intervalBullet = new BasicBulletType(3f, 65){{
                     width = 9f;
                     hitSize = 5f;
                     height = 15f;

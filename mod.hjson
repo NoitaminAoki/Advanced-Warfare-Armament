@@ -14,10 +14,10 @@ main: "mainArm.ModModular"
 description: "A Mindustry Java mod that add new advanced defenses."
 
 #the mod version
-version: 0.7.3
+version: 0.7.4
 
 #the minimum game build required to run this mod
-minGameVersion: 145
+minGameVersion: 146
 
 #this is a java mod
 java: true

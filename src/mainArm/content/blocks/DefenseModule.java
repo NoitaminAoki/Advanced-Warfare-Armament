@@ -136,7 +136,7 @@ public class DefenseModule {
             }};
 
             size = 2;
-            reload = 18f;
+            reload = 10f;
             range = 180f;
             shootY = 10f;
             recoil = 1f;
@@ -392,7 +392,7 @@ public class DefenseModule {
                         keepVelocity = false;
                         collidesAir = true;
 
-                        spawnUnit = new MissileUnitType("quell-missile"){{
+                        spawnUnit = new MissileUnitType("lockmirrae-missile"){{
                             targetAir = false;
                             speed = 4.3f;
                             maxRange = 6f;
@@ -417,21 +417,21 @@ public class DefenseModule {
                     }}
             );
             shootWarmupSpeed = 0.1f;
-            shootY = 2f;
+            shootY = 12f;
             shootCone = 40f;
             shoot.shots = 4;
             shoot.shotDelay = 5f;
             inaccuracy = 28f;
             reload = 80f;
-            range = 295f;
-            scaledHealth = 280;
+            range = 330f;
+            scaledHealth = 380;
             size = 3;
 
             drawer = new DrawTurret(){{
                 parts.add(new RegionPart("-launcher"){{
                               mirror = true;
                               under = true;
-                              moveX = 0.15f;
+                              moveX = 0.35f;
                               moveY = -0.5f;
                               progress = PartProgress.recoil;
                               heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
@@ -478,13 +478,14 @@ public class DefenseModule {
                 }});
             }};
 
-            shootY = 6f;
+            shootY = 10f;
+            range = 310f;
             shootCone = 20f;
             health = 350;
             size = 3;
             inaccuracy = 1f;
             rotateSpeed = 8f;
-            reload = 15f;
+            reload = 12f;
             coolant = consumeCoolant(0.2f);
             coolantMultiplier = 2.5f;
             limitRange(9);

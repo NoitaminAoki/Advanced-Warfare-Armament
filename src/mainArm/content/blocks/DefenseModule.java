@@ -398,13 +398,12 @@ public class DefenseModule {
                             targetAir = true;
                             speed = 5.3f;
                             maxRange = 6f;
-                            lifetime = 60f * 1.4f;
+                            lifetime = 60f * 2.8f;
                             outlineColor = Color.valueOf("272930FF");
                             engineColor = trailColor = Color.valueOf("A9D8FFFF");
                             engineLayer = Layer.effect;
                             health = 95;
                             loopSoundVolume = 0.1f;
-                            missileAccelTime = 50;
                             trailLength = 12;
 
                             weapons.add(new Weapon(){{

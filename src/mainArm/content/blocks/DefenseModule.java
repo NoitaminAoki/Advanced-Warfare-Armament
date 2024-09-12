@@ -429,11 +429,7 @@ public class DefenseModule {
             size = 3;
 
             drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-top"){{
-                            under = false;
-                            moveY = -1.5f;
-                        }},
-                          new RegionPart("-launcher"){{
+                parts.add(new RegionPart("-launcher"){{
                               mirror = true;
                               under = false;
                               moveX = 0.35f;
@@ -441,7 +437,11 @@ public class DefenseModule {
                               progress = PartProgress.recoil;
                               heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
                               heatColor = Color.sky.cpy().a(0.9f);
-                          }}
+                          }},
+                          new RegionPart("-top"){{
+                            under = false;
+                            moveY = -1.5f;
+                        }}
                         );
             }};
 

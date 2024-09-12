@@ -136,7 +136,7 @@ public class DefenseModule {
             }};
 
             size = 2;
-            reload = 10f;
+            reload = 12f;
             range = 180f;
             shootY = 10f;
             recoil = 1f;
@@ -146,6 +146,7 @@ public class DefenseModule {
             shoot = new ShootAlternate(3.5f);
 
             drawer = new DrawTurret();
+            consumePower(1.5f);
         }};
 
         gunmachina = new ItemTurret("gunmachina") {{
@@ -428,19 +429,20 @@ public class DefenseModule {
             size = 3;
 
             drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-launcher"){{
+                parts.add(new RegionPart("-top"){{
+                            under = false;
+                            moveY = -1.5f;
+                        }},
+                          new RegionPart("-launcher"){{
                               mirror = true;
-                              under = true;
+                              under = false;
                               moveX = 0.35f;
                               moveY = -0.5f;
                               progress = PartProgress.recoil;
                               heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
                               heatColor = Color.sky.cpy().a(0.9f);
-                          }},
-                        new RegionPart("-top"){{
-                            under = false;
-                            moveY = -1.5f;
-                        }});
+                          }}
+                        );
             }};
 
             coolant = consume(new ConsumeLiquid(Liquids.water, 20f / 60f));
@@ -453,14 +455,14 @@ public class DefenseModule {
             shootSound = Sounds.blaster;
 
             ammo(
-                    Items.graphite,  new BasicBulletType(5f, 38){{
-                        width = 7f;
-                        height = 12f;
+                    Items.graphite,  new BasicBulletType(5f, 44){{
+                        width = 10f;
+                        height = 15f;
                         shootEffect = Fx.sparkShoot;
                         smokeEffect = Fx.shootBigSmoke;
                         hitColor = backColor = trailColor = Pal.suppress;
                         frontColor = Color.white;
-                        trailWidth = 1.5f;
+                        trailWidth = 2f;
                         trailLength = 5;
                         hitEffect = despawnEffect = Fx.hitBulletColor;
                     }}

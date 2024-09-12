@@ -85,68 +85,68 @@ public class DefenseModule {
             limitRange();
         }};
 
-//        lightningswords = new PowerTurret("lightningswords") {{
-//            requirements(Category.turret, with(Items.copper, 120, Items.lead, 95, Items.silicon, 80, Items.titanium, 50), true);
-//            shootType = new RailBulletType(){{
-//                length = 188f;
-//                damage = 60f;
-//                hitColor = Color.valueOf("feb380");
-//                hitEffect = endEffect = Fx.hitBulletColor;
-//                pierceDamageFactor = 0.8f;
-//
-//                smokeEffect = Fx.colorSpark;
-//
-//                endEffect = new Effect(14f, e -> {
-//                    color(e.color);
-//                    Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
-//                });
-//
-//                shootEffect = new Effect(10, e -> {
-//                    color(e.color);
-//                    float w = 1.2f + 7 * e.fout();
-//
-//                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
-//                    color(e.color);
-//
-//                    for(int i : Mathf.signs){
-//                        Drawf.tri(e.x, e.y, w * 0.9f, 18f * e.fout(), e.rotation + i * 90f);
-//                    }
-//
-//                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
-//                });
-//
-//                lineEffect = new Effect(20f, e -> {
-//                    if(!(e.data instanceof Vec2 v)) return;
-//
-//                    color(e.color);
-//                    stroke(e.fout() * 0.9f + 0.6f);
-//
-//                    Fx.rand.setSeed(e.id);
-//                    for(int i = 0; i < 7; i++){
-//                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-//                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
-//                    }
-//
-//                    e.scaled(14f, b -> {
-//                        stroke(b.fout() * 1.5f);
-//                        color(e.color);
-//                        Lines.line(e.x, e.y, v.x, v.y);
-//                    });
-//                });
-//            }};
-//
-//            size = 2;
-//            reload = 18f;
-//            range = 180f;
-//            shootY = 10f;
-//            recoil = 1f;
-//            rotateSpeed = 5f;
-//            shootCone = 2f;
-//            cooldownTime = 20f;
-//            shoot = new ShootAlternate(3.5f);
-//
-//            drawer = new DrawTurret();
-//        }};
+        lightningswords = new PowerTurret("lightningswords") {{
+            requirements(Category.turret, with(Items.copper, 120, Items.lead, 95, Items.silicon, 80, Items.titanium, 50), true);
+            shootType = new RailBulletType(){{
+                length = 188f;
+                damage = 60f;
+                hitColor = Color.valueOf("feb380");
+                hitEffect = endEffect = Fx.hitBulletColor;
+                pierceDamageFactor = 0.8f;
+
+                smokeEffect = Fx.colorSpark;
+
+                endEffect = new Effect(14f, e -> {
+                    color(e.color);
+                    Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
+                });
+
+                shootEffect = new Effect(10, e -> {
+                    color(e.color);
+                    float w = 1.2f + 7 * e.fout();
+
+                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
+                    color(e.color);
+
+                    for(int i : Mathf.signs){
+                        Drawf.tri(e.x, e.y, w * 0.9f, 18f * e.fout(), e.rotation + i * 90f);
+                    }
+
+                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+                });
+
+                lineEffect = new Effect(20f, e -> {
+                    if(!(e.data instanceof Vec2 v)) return;
+
+                    color(e.color);
+                    stroke(e.fout() * 0.9f + 0.6f);
+
+                    Fx.rand.setSeed(e.id);
+                    for(int i = 0; i < 7; i++){
+                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                    }
+
+                    e.scaled(14f, b -> {
+                        stroke(b.fout() * 1.5f);
+                        color(e.color);
+                        Lines.line(e.x, e.y, v.x, v.y);
+                    });
+                });
+            }};
+
+            size = 2;
+            reload = 18f;
+            range = 180f;
+            shootY = 10f;
+            recoil = 1f;
+            rotateSpeed = 5f;
+            shootCone = 2f;
+            cooldownTime = 20f;
+            shoot = new ShootAlternate(3.5f);
+
+            drawer = new DrawTurret();
+        }};
 
         gunmachina = new ItemTurret("gunmachina") {{
            requirements(Category.turret, with(Items.copper, 200, Items.titanium, 300, Items.silicon, 50), true);
@@ -385,72 +385,32 @@ public class DefenseModule {
 
             ammo(
                     Items.silicon, new BulletType(){{
-                        shootEffect = Fx.sparkShoot;
-                        smokeEffect = Fx.shootSmokeTitan;
-                        hitColor = Pal.suppress;
+                        shootEffect = Fx.shootBig;
+                        smokeEffect = Fx.shootBigSmoke2;
                         shake = 1f;
                         speed = 0f;
                         keepVelocity = false;
                         collidesAir = true;
 
-                        spawnUnit = new MissileUnitType("disrupt-missile"){{
-                            targetAir = true;
-                            speed = 4.6f;
-                            maxRange = 5f;
-                            lifetime = 60f * 5.5f;
+                        spawnUnit = new MissileUnitType("quell-missile"){{
+                            targetAir = false;
+                            speed = 4.3f;
+                            maxRange = 6f;
+                            lifetime = 60f * 1.4f;
                             outlineColor = Pal.darkOutline;
-                            health = 120;
-                            homingDelay = 10f;
-                            lowAltitude = true;
-                            engineSize = 3f;
                             engineColor = trailColor = Pal.sapBulletBack;
                             engineLayer = Layer.effect;
-                            deathExplosionEffect = Fx.none;
+                            health = 95;
                             loopSoundVolume = 0.1f;
-
-                            parts.add(new ShapePart(){{
-                                layer = Layer.effect;
-                                circle = true;
-                                y = -0.25f;
-                                radius = 1.5f;
-                                color = Pal.suppress;
-                                colorTo = Color.white;
-                                progress = PartProgress.life.curve(Interp.pow5In);
-                            }});
-
-                            parts.add(new RegionPart("-fin"){{
-                                mirror = true;
-                                progress = PartProgress.life.mul(3f).curve(Interp.pow5In);
-                                moveRot = 32f;
-                                rotation = -6f;
-                                moveY = 1.5f;
-                                x = 3f / 4f;
-                                y = -6f / 4f;
-                            }});
 
                             weapons.add(new Weapon(){{
                                 shootCone = 360f;
                                 mirror = false;
                                 reload = 1f;
                                 shootOnDeath = true;
-                                bullet = new ExplosionBulletType(140f, 25f){{
+                                bullet = new ExplosionBulletType(110f, 25f){{
+                                    shootEffect = Fx.massiveExplosion;
                                     collidesAir = true;
-                                    suppressionRange = 140f;
-                                    shootEffect = new ExplosionEffect(){{
-                                        lifetime = 50f;
-                                        waveStroke = 5f;
-                                        waveLife = 8f;
-                                        waveColor = Color.white;
-                                        sparkColor = smokeColor = Pal.suppress;
-                                        waveRad = 40f;
-                                        smokeSize = 4f;
-                                        smokes = 7;
-                                        smokeSizeBase = 0f;
-                                        sparks = 10;
-                                        sparkRad = 40f;
-                                        sparkLen = 6f;
-                                        sparkStroke = 2f;
-                                    }};
                                 }};
                             }});
                         }};
@@ -462,7 +422,7 @@ public class DefenseModule {
             shoot.shots = 4;
             shoot.shotDelay = 5f;
             inaccuracy = 28f;
-            reload = 50f;
+            reload = 80f;
             range = 295f;
             scaledHealth = 280;
             size = 3;
@@ -520,6 +480,7 @@ public class DefenseModule {
 
             shootCone = 20f;
             health = 350;
+            size = 3;
             inaccuracy = 1f;
             rotateSpeed = 8f;
             reload = 15f;

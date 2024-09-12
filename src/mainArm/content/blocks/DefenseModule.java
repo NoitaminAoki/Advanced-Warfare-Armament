@@ -398,7 +398,7 @@ public class DefenseModule {
                             targetAir = true;
                             speed = 5.3f;
                             maxRange = 6f;
-                            lifetime = 60f * 2.8f;
+                            lifetime = 60f * 2.2f;
                             outlineColor = Color.valueOf("272930FF");
                             engineColor = trailColor = Color.valueOf("A9D8FFFF");
                             engineLayer = Layer.effect;
@@ -470,11 +470,10 @@ public class DefenseModule {
             shootY = 12f;
             shootCone = 40f;
             shoot.shots = 6;
-            shoot.shotDelay = 3.5f;
-            shoot.firstShotDelay = 30f;
-            inaccuracy = 28f;
-            reload = 90f;
-            range = 420f;
+            shoot.shotDelay = 5.5f;
+            inaccuracy = 36f;
+            reload = 120f;
+            range = 480f;
             scaledHealth = 380;
             size = 3;
 

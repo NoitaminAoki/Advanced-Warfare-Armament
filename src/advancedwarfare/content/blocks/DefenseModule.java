@@ -1,5 +1,7 @@
-package mainArm.content.blocks;
+package advancedwarfare.content.blocks;
 
+import advancedwarfare.content.AWBullets;
+import advancedwarfare.expand.block.drawer.DrawMissilePathSequence;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -10,7 +12,6 @@ import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
-import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
 import mindustry.graphics.*;
@@ -235,53 +236,18 @@ public class DefenseModule {
         rapidwings = new ItemTurret("rapidwings") {{
             requirements(Category.turret, with(Items.copper, 300, Items.lead, 300, Items.silicon, 150, Items.graphite, 250), true);
 
-            Effect sfe = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig);
-
             ammo(
-                    Items.graphite, new BasicBulletType(7.5f, 55){{
-                        width = 12f;
-                        hitSize = 7f;
-                        height = 20f;
-                        shootEffect = sfe;
-                        smokeEffect = Fx.shootBigSmoke;
-                        ammoMultiplier = 4;
-                        pierceCap = 2;
-                        pierce = true;
-                        pierceBuilding = true;
-                        hitColor = backColor = trailColor = Pal.berylShot;
-                        frontColor = Color.white;
-                        trailWidth = 2.1f;
-                        trailLength = 10;
-                        hitEffect = despawnEffect = Fx.hitBulletColor;
-                        buildingDamageMultiplier = 0.5f;
-                    }},
-                    Items.titanium, new BasicBulletType(8f, 95){{
-                        width = 13f;
-                        height = 19f;
-                        hitSize = 7f;
-                        shootEffect = sfe;
-                        smokeEffect = Fx.shootBigSmoke;
-                        ammoMultiplier = 8;
-                        reloadMultiplier = 1f;
-                        pierceCap = 3;
-                        pierce = true;
-                        pierceBuilding = true;
-                        hitColor = backColor = trailColor = Pal.tungstenShot;
-                        frontColor = Color.white;
-                        trailWidth = 2.2f;
-                        trailLength = 11;
-                        hitEffect = despawnEffect = Fx.hitBulletColor;
-                        rangeChange = 40f;
-                        buildingDamageMultiplier = 2.85f;
-                    }}
+                    Items.graphite, AWBullets.graphiteDart,
+                    Items.titanium, AWBullets.titaniumDart
             );
-            shoot = new ShootAlternate() {{
-                spread = 8f;
-                shots = 2;
-                barrels = 2;
-            }};
 
-            recoils = 2;
+            shoot = new ShootMulti(new ShootPattern(), new ShootBarrel(){{
+                barrels = new float[]{-6.5f, 10f, 0f};
+            }}, new ShootBarrel(){{
+                barrels = new float[]{6.5f, 10f, 0f};
+            }});
+
+            recoils = 1;
             drawer = new DrawTurret(){{
                 parts.add(
                         new RegionPart("-barrels"){{
@@ -299,17 +265,17 @@ public class DefenseModule {
 
             shootSound = Sounds.shootAlt;
             outlineColor = Pal.darkOutline;
-            shootY = 10f;
             size = 3;
             reload = 10f;
             recoilTime = reload * 2f;
             coolantMultiplier = 0.5f;
             recoil = 3f;
-            range = 290f;
+            range = 310f;
             inaccuracy = 1.5f;
             shootCone = 10f;
             scaledHealth = 280;
             rotateSpeed = 7.5f;
+            maxAmmo = 80;
         }};
 
         thunderlance = new ItemTurret("thunderlance") {{
@@ -411,7 +377,7 @@ public class DefenseModule {
                                 mirror = false;
                                 reload = 1f;
                                 shootOnDeath = true;
-                                bullet = new ExplosionBulletType(350f, 30f){{
+                                bullet = new ExplosionBulletType(650f, 40f){{
                                     collidesAir = true;
                                     shootEffect = new MultiEffect(
                                             new WaveEffect() {{
@@ -468,28 +434,35 @@ public class DefenseModule {
             );
             shootWarmupSpeed = 0.1f;
             shootY = 12f;
-            shootCone = 40f;
-            shoot.shots = 6;
-            shoot.shotDelay = 5.5f;
-            inaccuracy = 36f;
+            shootCone = 20f;
+            shoot.shots = 3;
+            shoot.shotDelay = 4.5f;
             reload = 120f;
             range = 480f;
             scaledHealth = 380;
             size = 3;
 
             drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-launcher"){{
-                              mirror = true;
-                              under = false;
-                              moveX = 0.35f;
-                              moveY = -0.5f;
-                              progress = PartProgress.recoil;
-                              heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
-                              heatColor = Color.sky.cpy().a(0.9f);
-                          }},
-                          new RegionPart("-top"){{
+                parts.add(
+                        new RegionPart("-launcher"){{
+                            mirror = true;
+                            under = false;
+                            moveX = 2.35f;
+                            progress = PartProgress.recoil;
+                            heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
+                            heatColor = Color.sky.cpy().a(0.9f);
+                        }},
+                        new RegionPart("-top"){{
                             under = false;
                             moveY = -1.5f;
+                        }},
+                        new DrawMissilePathSequence() {{
+                            x = 0;
+                            y = 2f;
+                            arrows = 5;
+                            color = Pal.surge;
+                            colorTo = Color.red;
+                            colorToFinScl = 0.12f;
                         }}
                         );
             }};

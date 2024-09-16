@@ -1,6 +1,6 @@
-package mainArm.content;
+package advancedwarfare.content;
 
-import mainArm.content.blocks.*;
+import advancedwarfare.content.blocks.*;
 
 public class BlocksModular {
     public static void load() {

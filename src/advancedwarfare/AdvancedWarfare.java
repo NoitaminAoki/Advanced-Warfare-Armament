@@ -12,6 +12,10 @@ public class AdvancedWarfare extends Mod {
 
     @Override
     public void loadContent() {
+        AWContent.loadPriority();
+
+        AWBullets.load();
+        AWStatusEffects.load();
         BlocksModular.load();
     }
 

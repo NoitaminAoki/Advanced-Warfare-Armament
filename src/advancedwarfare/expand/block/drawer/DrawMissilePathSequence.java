@@ -31,7 +31,6 @@ public class DrawMissilePathSequence extends DrawPart{
     public int arrows = 8;
     public float scl = 12f;
     public float maintainScl = 0.125f;
-//	public float
 
     public DrawMissilePathSequence(){
     }

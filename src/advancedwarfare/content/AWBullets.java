@@ -58,7 +58,7 @@ public class AWBullets {
             shootEffect = AWFx.square(backColor, 45f, 5, 38, 4);
             smokeEffect = Fx.shootBigSmoke;
 
-            despawnEffect = hitEffect = AWFx.explosionWaveSmall;
+            despawnEffect = hitEffect = AWFx.explosionWaveLarge;
 
             splashDamage = damage;
             splashDamageRadius = 25f;

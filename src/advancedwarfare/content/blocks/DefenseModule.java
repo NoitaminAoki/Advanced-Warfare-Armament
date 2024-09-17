@@ -432,9 +432,9 @@ public class DefenseModule {
                         }};
                     }}
             );
-            warmupMaintainTime = 5f;
+            warmupMaintainTime = 90f;
             shootWarmupSpeed /= 5f;
-            minWarmup = 0.1f;
+            minWarmup = 0.9f;
             shootY = 12f;
             shootCone = 20f;
             shoot.shots = 3;
@@ -461,7 +461,7 @@ public class DefenseModule {
                         new DrawMissilePathSequence() {{
                             x = 0;
                             y = 2f;
-                            spacing = 1;
+                            spacing = 5;
                             arrows = 5;
                             color = Pal.surge;
                             colorTo = Color.red;

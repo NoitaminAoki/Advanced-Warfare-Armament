@@ -58,30 +58,28 @@ public class AWFx {
     explosionWaveSmall = new Effect(Fx.chainLightning.lifetime, e -> {
         color(e.color);
         Drawf.light(e.x, e.y, e.fout() * 90f, Color.purple, 0.7f);
-        Log.info("[Effect:ExplosionWaveLSmall] Light Radius: " + (e.fout() * 90f));
         e.scaled(25f, t -> {
-            circle(e.x, e.y, 2f + t.fin(Interp.pow3Out) * 15f);
+            circle(e.x, e.y, 2f + t.fin(Interp.pow3Out) * 25f);
             Log.info("[Effect:ExplosionWaveSmall] Circle Radius: " + (3f + t.fin(Interp.pow3Out) * 60f));
         });
         Fill.circle(e.x, e.y, e.fout() * 8f);
-        randLenVectors(e.id + 1, 4, 1f + 60f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 5f));
+        randLenVectors(e.id + 1, 4, 1f + 25f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 5f));
 
         color(Color.gray);
-        Angles.randLenVectors(e.id, 8, 2.0F + 30.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
+        Angles.randLenVectors(e.id, 8, 2.0F + 15.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
     }),
 
     explosionWaveLarge = new Effect(50f, 160f, e -> {
         color(e.color);
         Drawf.light(e.x, e.y, e.fout() * 90f, e.color, 0.7f);
-        Log.info("[Effect:ExplosionWaveLarge] Light Radius: " + (e.fout() * 90f));
         e.scaled(25f, t -> {
-            circle(e.x, e.y, 3f + t.fin(Interp.pow3Out) * 60f);
+            circle(e.x, e.y, 3f + t.fin(Interp.pow3Out) * 40f);
             Log.info("[Effect:ExplosionWaveLarge] Circle Radius: " + (3f + t.fin(Interp.pow3Out) * 60f));
         });
         Fill.circle(e.x, e.y, e.fout() * 8f);
-        randLenVectors(e.id + 1, 4, 1f + 60f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 5f));
+        randLenVectors(e.id + 1, 4, 1f + 40f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 5f));
 
         color(Color.gray);
-        Angles.randLenVectors(e.id, 8, 2.0F + 30.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
+        Angles.randLenVectors(e.id, 8, 2.0F + 20.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
     });
 }

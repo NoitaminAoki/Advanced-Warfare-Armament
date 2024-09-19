@@ -702,10 +702,10 @@ public class DefenseModule {
                 shots = 4;
                 barrels = new float[]
                         {
-                                -5, 2.5, 8,
-                                -1, 2.5, 2,
-                                1, 2.5, -2,
-                                5, 2.5, -8,
+                                -5, 2, 8,
+                                -1, 2, 2,
+                                1, 2, -2,
+                                5, 2, -8,
 
                         };
             }}, new ShootPattern(){{

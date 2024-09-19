@@ -42,7 +42,6 @@ public class DrawMissilePathSequence extends DrawPart{
 
     @Override
     public void draw(PartParams params){
-        Log.info("[DrawPart:DrawMissilePathSequence] progress: " + progress);
         float z = Draw.z();
         if(layer > 0) Draw.z(layer);
         if(under && turretShading) Draw.z(z - 0.0001f);
@@ -51,7 +50,6 @@ public class DrawMissilePathSequence extends DrawPart{
         float prevZ = Draw.z();
         float fin = progress.getClamp(params);
         float fout = 1 - fin;
-        Log.info("[DrawPart:DrawMissilePathSequence] fin: " + fin + ", fout: " + fout);
 
         //noinspection SuspiciousNameCombination
         Tmp.v5.trns(params.rotation, y, x).add(params.x, params.y);

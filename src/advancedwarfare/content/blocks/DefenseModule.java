@@ -1,19 +1,27 @@
 package advancedwarfare.content.blocks;
 
 import advancedwarfare.content.AWBullets;
+import advancedwarfare.content.AWColor;
+import advancedwarfare.content.AWFx;
 import advancedwarfare.expand.block.drawer.DrawMissilePathSequence;
+import advancedwarfare.expand.bullets.AccelBulletType;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.util.Log;
+import arc.util.Time;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
+import mindustry.entities.part.DrawPart.*;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.*;
-import mindustry.gen.Sounds;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
@@ -38,7 +46,7 @@ public class DefenseModule {
     //Turret - Base 3
     gunmachina, rapidwings, thunderlance, lockmirrae, attaraxia,
     //Turret - Base 4
-    gatlingwings,
+    gatlingwings, hurricane,
     //Turret - Base 5
     mightydao;
 
@@ -242,9 +250,9 @@ public class DefenseModule {
             );
 
             shoot = new ShootMulti(new ShootPattern(), new ShootBarrel(){{
-                barrels = new float[]{-6.5f, 10f, 0f};
+                barrels = new float[]{-4f, 1f, 0f};
             }}, new ShootBarrel(){{
-                barrels = new float[]{6.5f, 10f, 0f};
+                barrels = new float[]{4f, 1f, 0f};
             }});
 
             recoils = 1;
@@ -350,7 +358,6 @@ public class DefenseModule {
         lockmirrae = new ItemTurret("lockmirrae") {{
             requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon, 110, Items.graphite, 150), true);
             shootSound = Sounds.missileSmall;
-
             ammo(
                     Items.silicon, new BulletType(){{
                         shootEffect = Fx.shootBig;
@@ -360,7 +367,7 @@ public class DefenseModule {
                         keepVelocity = false;
                         collidesAir = true;
 
-                        spawnUnit = new MissileUnitType("lockmirrae-missile"){{
+                        spawnUnit = new MissileUnitType("androxusmega-missile"){{
                             targetAir = true;
                             speed = 5.3f;
                             maxRange = 6f;
@@ -450,7 +457,6 @@ public class DefenseModule {
                             mirror = true;
                             under = false;
                             moveX = 2.35f;
-                            progress = PartProgress.recoil;
                             heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
                             heatColor = Color.sky.cpy().a(0.9f);
                         }},
@@ -461,8 +467,10 @@ public class DefenseModule {
                         new DrawMissilePathSequence() {{
                             x = 0;
                             y = 2f;
-                            spacing = 5;
-                            arrows = 5;
+                            spacing = 3;
+                            arrows = 4;
+                            progress = PartProgress.reload.inv().mul(PartProgress.warmup);
+                            colorProgress = PartProgress.reload.inv().mul(PartProgress.warmup).compress(0.35f, 0.75f);
                             color = Pal.surge;
                             colorTo = Color.red;
                             colorToFinScl = 0.12f;
@@ -633,6 +641,102 @@ public class DefenseModule {
             coolantMultiplier = 2.5f;
 
             limitRange(5f);
+        }};
+
+        hurricane = new ItemTurret("hurricane") {{
+            requirements(Category.turret, with(Items.copper, 30, Items.lead, 30, Items.titanium, 150, Items.silicon, 70, Items.thorium, 40, Items.plastanium, 25, Items.metaglass, 15, Items.phaseFabric, 10), true);
+
+            velocityRnd = 0.05f;
+            ammoPerShot = 15;
+            reload = 200f;
+            rotateSpeed = 4f;
+            shootCone = 80;
+            consumeAmmoOnce = true;
+            shootSound = Sounds.missileSmall;
+            size = 4;
+            range = 630;
+
+            minWarmup = 0.9f;
+            shootWarmupSpeed /= 3f;
+            recoil = 2f;
+            xRand = 10f;
+            maxAmmo = 60;
+
+            ammo(
+                    Items.silicon, new AccelBulletType(9.2f, 100){{
+                        sprite = "missile-large";
+                        width = 6f;
+                        height = 16f;
+                        shrinkY = 0f;
+
+                        accelerateBegin = 0.15f;
+                        accelerateEnd = 0.65f;
+
+                        velocityBegin = 3f;
+                        velocityIncrease = 11f;
+
+                        backColor = hitColor = lightColor = lightningColor = AWColor.golden;
+                        frontColor = AWColor.goldenLight;
+                        homingPower = 0.18f;
+                        homingDelay = 2f;
+                        homingRange = 160f;
+                        lifetime = 120f;
+                        hitEffect = Fx.blastExplosion;
+                        despawnEffect = Fx.blastExplosion;
+
+                        lightning = 1;
+                        lightningLengthRand = 12;
+                        lightningLength = 3;
+                        lightningDamage = 300;
+
+                        smokeEffect = Fx.shootPyraFlame;
+                        shootEffect = AWFx.hugeSmokeGray;
+
+                        trailColor = AWColor.trail;
+                        trailWidth = 2f;
+                        trailLength = 12;
+                    }}
+            );
+
+            shoot = new ShootMulti(new ShootBarrel(){{
+                shots = 3;
+                barrels = new float[]
+                        {
+                                -5, 3, 8,
+                                0, 3, 0,
+                                5, 3, -8,
+
+                        };
+            }}, new ShootPattern(){{
+                shots = 15;
+                shotDelay = 4.5f;
+            }});
+
+            drawer = new DrawTurret("reinforced-"){{
+                parts.add(
+                        new RegionPart("-side") {{
+                            mirror = true;
+                            under = true;
+                            moveX = 4.5f;
+                        }},
+                        new RegionPart("-bottom") {{
+                            under = true;
+                            moveY = -0.5f;
+                        }},
+                        new RegionPart("-barrel") {{
+                            mirror = true;
+                            under = true;
+                            moveX = 2f;
+                            moveY = -1f;
+                        }},
+                        new RegionPart("-top") {{
+                            moveY = -0.5f;
+                        }}
+                );
+            }};
+
+            consumePower(3.5f);
+            limitRange(9f);
         }};
 
         mightydao = new PowerTurret("mightydao") {{

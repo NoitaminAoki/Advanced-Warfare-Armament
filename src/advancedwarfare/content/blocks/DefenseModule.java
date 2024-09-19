@@ -663,24 +663,24 @@ public class DefenseModule {
             maxAmmo = 60;
 
             ammo(
-                    Items.silicon, new AccelBulletType(9.2f, 100){{
+                    Items.silicon, new AccelBulletType(8.5f, 100){{
                         sprite = "missile-large";
                         width = 6f;
                         height = 16f;
                         shrinkY = 0f;
 
-                        accelerateBegin = 0.15f;
-                        accelerateEnd = 0.65f;
+                        accelerateBegin = 0.1f;
+                        accelerateEnd = 0.6f;
 
-                        velocityBegin = 3f;
+                        velocityBegin = 3.5f;
                         velocityIncrease = 11f;
 
                         backColor = hitColor = lightColor = lightningColor = AWColor.golden;
                         frontColor = AWColor.goldenLight;
-                        homingPower = 0.18f;
+                        homingPower = 0.15f;
                         homingDelay = 2f;
                         homingRange = 160f;
-                        lifetime = 120f;
+                        lifetime = 150f;
                         hitEffect = Fx.blastExplosion;
                         despawnEffect = Fx.blastExplosion;
 
@@ -699,12 +699,13 @@ public class DefenseModule {
             );
 
             shoot = new ShootMulti(new ShootBarrel(){{
-                shots = 3;
+                shots = 4;
                 barrels = new float[]
                         {
-                                -5, 3, 8,
-                                0, 3, 0,
-                                5, 3, -8,
+                                -5, 2.5, 8,
+                                -1, 2.5, 2,
+                                1, 2.5, -2,
+                                5, 2.5, -8,
 
                         };
             }}, new ShootPattern(){{
@@ -712,7 +713,7 @@ public class DefenseModule {
                 shotDelay = 4.5f;
             }});
 
-            drawer = new DrawTurret("reinforced-"){{
+            drawer = new DrawTurret(){{
                 parts.add(
                         new RegionPart("-side") {{
                             mirror = true;

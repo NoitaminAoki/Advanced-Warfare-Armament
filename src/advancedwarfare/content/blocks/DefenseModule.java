@@ -648,7 +648,7 @@ public class DefenseModule {
             requirements(Category.turret, with(Items.copper, 30, Items.lead, 30, Items.titanium, 150, Items.silicon, 70, Items.thorium, 40, Items.plastanium, 25, Items.metaglass, 15, Items.phaseFabric, 10), true);
 
             velocityRnd = 0.05f;
-            ammoPerShot = 15;
+            ammoPerShot = 8;
             reload = 200f;
             rotateSpeed = 4f;
             shootCone = 80;
@@ -661,10 +661,10 @@ public class DefenseModule {
             shootWarmupSpeed /= 3f;
             recoil = 2f;
             xRand = 10f;
-            maxAmmo = 60;
+            maxAmmo = 40;
 
             ammo(
-                    Items.silicon, new AccelBulletType(8.5f, 100){{
+                    Items.silicon, new AccelBulletType(8.5f, 80){{
                         sprite = "missile-large";
                         width = 6f;
                         height = 16f;
@@ -688,7 +688,7 @@ public class DefenseModule {
                         lightning = 1;
                         lightningLengthRand = 12;
                         lightningLength = 3;
-                        lightningDamage = 300;
+                        lightningDamage = 150;
 
                         smokeEffect = Fx.shootPyraFlame;
                         shootEffect = AWFx.hugeSmokeGray;
@@ -710,7 +710,7 @@ public class DefenseModule {
 
                         };
             }}, new ShootPattern(){{
-                shots = 15;
+                shots = 8;
                 shotDelay = 4.5f;
             }});
 

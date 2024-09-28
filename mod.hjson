@@ -14,10 +14,10 @@ main: "advancedwarfare.AdvancedWarfare"
 description: "A Mindustry Java mod that add new advanced defenses."
 
 #the mod version
-version: 0.11.1
+version: 0.12.0
 
 #the minimum game build required to run this mod
-minGameVersion: 146
+minGameVersion: 145
 
 #this is a java mod
 java: true

@@ -1,50 +1,58 @@
 package advancedwarfare.expand.blocks;
 
-import advancedwarfare.content.AWFx;
+import advancedwarfare.content.AWStats;
 import advancedwarfare.content.AWStatusEffects;
 import arc.func.*;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Intersector;
-import arc.util.*;
-import mindustry.content.Fx;
+import arc.util.Log;
+import arc.util.Nullable;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.entities.Units;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.ForceProjector;
+import mindustry.world.consumers.Consume;
+import mindustry.world.consumers.ConsumeItems;
+import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.StatValues;
 
 public class UltimateForceProjector extends ForceProjector {
 
-    protected static UltimateForceBuild paramEntity, paramBuild;
+    public @Nullable Consume enhanceConsumer;
+    protected boolean preventFlyingEnemies = false;
+    protected static UltimateForceBuild paramEntity;
 
     protected static final Cons<Unit> unitConsumer = unit -> {
         //Only control flying unit
         if(!unit.isFlying()) return;
-        //if this is positive, repel the unit; if it exceeds the unit radius * 2, it's inside the forcefield and must be killed
-        float overlapDst = (unit.hitSize/2f + paramBuild.radius()) - unit.dst(paramBuild);
+        if(Intersector.isInRegularPolygon(((ForceProjector)(paramEntity.block)).sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), ((ForceProjector)(paramEntity.block)).shieldRotation, unit.x, unit.y)) {
+            unit.vel.setZero();
+            //get out
 
-        if(overlapDst > 0){
-            if(overlapDst > unit.hitSize * 1.5f){
-                //instakill units that are stuck inside the shield (TODO or maybe damage them instead?)
-                unit.kill();
-            }else{
-                //stop
-                unit.vel.setZero();
-                //get out
-                unit.apply(AWStatusEffects.empSmall);
-                unit.move(Tmp.v1.set(unit).sub(paramBuild).setLength(overlapDst + 0.01f));
-
-//                if(Mathf.chanceDelta(0.12f * Time.delta)){
-//                    Fx.circleColorSpark.at(unit.x, unit.y, paramBuild.team.color);
-//                }
-            }
+            unit.apply(AWStatusEffects.electricRooting);
         }
     };
 
     public UltimateForceProjector(String name) {
         super(name);
-        sides = 24;
+        crushDamageMultiplier = 0.7f;
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        boolean consItems = enhanceConsumer != null;
+
+        if(consItems) stats.timePeriod = phaseUseTime;
+
+        if(consItems && enhanceConsumer instanceof ConsumeItems coni) {
+            stats.remove(AWStats.itemEnhancement);
+            stats.add(AWStats.itemEnhancement, StatValues.itemBoosters("+{0} " + StatUnit.shieldHealth.localized(), stats.timePeriod, 0, 0, coni.items, this::consumesItem));
+        }
     }
 
     @Override
@@ -55,20 +63,39 @@ public class UltimateForceProjector extends ForceProjector {
     }
 
     public class UltimateForceBuild extends ForceBuild {
+        public float enhanceHeat;
         @Override
         public void updateTile() {
             super.updateTile();
+            boolean enhanceValid = enhanceConsumer != null && enhanceConsumer.efficiency(this) > 0;
 
+            enhanceHeat = Mathf.lerpDelta(enhanceHeat, Mathf.num(enhanceValid), 0.1f);
+
+            preventFlyingEnemies = enhanceValid && !broken && efficiency > 0;
+
+            if(enhanceValid && !broken && timer(timerUse, phaseUseTime) && efficiency > 0) {
+                consume();
+            }
             float rad = radius();
-
-            if(rad > 1){
-                paramBuild = this;
+            if(rad > 1 && preventFlyingEnemies){
+                paramEntity = this;
                 Units.nearbyEnemies(team, x, y, rad + 10f, unitConsumer);
             }
 
         }
         public float radius(){
             return super.realRadius();
+        }
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            write.f(enhanceHeat);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            enhanceHeat = read.f();
         }
     }
 }

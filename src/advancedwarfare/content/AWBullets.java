@@ -16,6 +16,8 @@ import mindustry.entities.Effect;
 import mindustry.entities.Lightning;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
+import mindustry.entities.effect.WaveEffect;
 import mindustry.gen.Bullet;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
@@ -24,7 +26,7 @@ import mindustry.graphics.Pal;
 import static arc.graphics.g2d.Lines.*;
 public class AWBullets {
     public static BulletType
-    graphiteDart, titaniumDart, titanRushTech, titanRushTech2, ancientBall;
+    graphiteDart, titaniumDart, titanRushTech, ionizerTech, ancientBall;
 
     public static void load() {
         graphiteDart = new BasicBulletType(8f, 80f) {{
@@ -104,7 +106,7 @@ public class AWBullets {
             trailWidth = 3f;
             trailLength = 12;
             hitEffect = despawnEffect = Fx.hitBulletColor;
-            buildingDamageMultiplier = 0.3f;
+            buildingDamageMultiplier = 0.5f;
 
             trailEffect = Fx.colorSpark;
             trailRotation = true;
@@ -125,14 +127,164 @@ public class AWBullets {
             flakInterval = 20f;
             despawnShake = 3f;
 
-            fragBullets = 1;
-            fragBullet = new EndroidLaserBulletType();
+            fragBullets = 3;
+            fragBullet = new EndroidLaserBulletType(250f, 500f, 25f);
 
-            fragSpread = fragRandomSpread = 0f;
+            fragRandomSpread = 0f;
+            fragSpread = 120f;
 
-            splashDamage = 0f;
-            hitEffect = Fx.hitSquaresColor;
+            splashDamage = 50f;
+            hitEffect = AWFx.hitSparkLarge;
+            despawnEffect = AWFx.hitSparkHuge;
             collidesGround = true;
+        }};
+
+        ionizerTech = new FlakBulletType(8f, 70f){{
+            sprite = "missile-large";
+
+            lifetime = 45f;
+            width = 12f;
+            height = 22f;
+
+            hitSize = 7f;
+            shootEffect = Fx.shootSmokeSquareBig;
+            smokeEffect = Fx.shootSmokeDisperse;
+            ammoMultiplier = 1;
+            hitColor = backColor = trailColor = lightningColor = AWColor.electric;
+            frontColor = Color.white;
+            trailWidth = 3f;
+            trailLength = 12;
+            hitEffect = despawnEffect = Fx.hitBulletColor;
+            buildingDamageMultiplier = 0.3f;
+
+            trailEffect = Fx.colorSpark;
+            trailRotation = true;
+            trailInterval = 3f;
+            lightning = 1;
+            lightningCone = 15f;
+            lightningLength = 20;
+            lightningLengthRand = 30;
+            lightningDamage = 20f;
+
+            homingPower = 0.17f;
+            homingDelay = 19f;
+            homingRange = 160f;
+
+//            explodeRange = 160f;
+//            explodeDelay = 0f;
+
+//            flakInterval = 20f;
+            despawnShake = 3f;
+
+            fragBullets = 1;
+            fragBullet = new BasicBulletType(0f, 1) {{
+                width = 12f;
+                height = 22f;
+                ammoMultiplier = 1f;
+                spin = 5f;
+                sprite = "missile-large";
+                lifetime = 550f;
+                intervalBullet = new AccelBulletType(2f, 180){
+                    {
+                        width = 22f;
+                        height = 40f;
+
+                        velocityBegin = 1f;
+                        velocityIncrease = 11f;
+//                        accelInterp = NHInterp.inOut;
+                        accelerateBegin = 0.045f;
+                        accelerateEnd = 0.675f;
+
+                        pierceCap = 3;
+                        splashDamage = damage / 4;
+                        splashDamageRadius = 24f;
+
+                        trailLength = 30;
+                        trailWidth = 3f;
+
+                        lifetime = 160f;
+
+//                        trailEffect = AWFx.trailFromWhite;
+
+                        pierceArmor = true;
+                        trailRotation = false;
+                        trailChance = 0.35f;
+                        trailParam = 4f;
+
+                        homingRange = 640F;
+                        homingPower = 0.075f;
+                        homingDelay = 5;
+
+                        lightning = 3;
+                        lightningLengthRand = 10;
+                        lightningLength = 5;
+                        lightningDamage = damage / 4;
+
+                        shootEffect = smokeEffect = Fx.none;
+                        hitEffect = despawnEffect = new MultiEffect(new Effect(65f, b -> {
+                            Draw.color(b.color);
+
+                            Fill.circle(b.x, b.y, 6f * b.fout(Interp.pow3Out));
+
+                            Angles.randLenVectors(b.id, 6, 35 * b.fin() + 5, (x, y) -> Fill.circle(b.x + x, b.y + y, 4 * b.fout(Interp.pow2Out)));
+                        }), AWFx.hitSparkLarge);
+
+                        despawnHit = false;
+
+                        rangeOverride = 480f;
+                    }};
+//                intervalBullet = new BasicBulletType(9.7f, 50){{
+//                    width = 8f;
+//                    height = 42f;
+//                    frontColor = Color.valueOf("FFFFFF");
+//                    backColor = Color.valueOf("66B1FFFF");
+//                    lifetime = 80f;
+//                    shrinkX = 0;
+//                    shrinkY = 0;
+//                    homingDelay = 10;
+////                    homingPower =
+//                    shootEffect = new MultiEffect(
+//                            new WaveEffect(){{
+//                                lifetime = 35f;
+//                                sizeFrom = 0;
+//                                sizeTo = 20;
+//                                lightColor = Color.valueOf("66B1FFFF");
+//                                interp = Interp.circleOut;
+//                                strokeFrom = 4;
+//                                strokeTo = 0;
+//                                colorFrom = Color.valueOf("66B1FFFF");
+//                                colorTo = Color.valueOf("66B1FFFF");
+//                            }},
+//                            new ParticleEffect() {{
+//                                particles = 1;
+//                                sizeFrom = 9;
+//                                sizeTo = 0;
+//                                length = 0;
+//                                layer = 144;
+//                                region = "plasma-medium-back";
+//                                interp = Interp.swing;
+//                                lifetime = 50;
+//                                colorFrom = Color.valueOf("000000FF");
+//                                colorTo = Color.valueOf("000000FF");
+//                            }},
+//                            new ParticleEffect() {{
+//                                particles = 1;
+//                                sizeFrom = 10;
+//                                sizeTo = 0;
+//                                length = 0;
+//                                interp = Interp.swing;
+//                                lifetime = 50;
+//                                colorFrom = Color.valueOf("66B1FFFF");
+//                                colorTo = Color.valueOf("66B1FFFF");
+//                            }}
+//                    );
+//                    smokeEffect = Fx.shootSmallSmoke;
+//                }};
+
+                bulletInterval = 10f;
+                intervalBullets = 2;
+                intervalDelay = 2f;
+            }};
         }};
 
         ancientBall = new AccelBulletType(2.85f, 240f, "large-orb"){{

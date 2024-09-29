@@ -33,7 +33,7 @@ public class AWFx {
     public static Effect
 
     empedSmall = new Effect(28f, e -> {
-        color(Color.valueOf("ffd814"), Color.valueOf("e8b500"), e.fin());
+        color(e.color, e.color.cpy().lerp(Color.white, 0.7f), e.fin());
 
         stroke(e.fout() * 2.4f);
         randLenVectors(e.id, 3, 3 + 25 * e.fin(), (x, y) -> {
@@ -45,7 +45,7 @@ public class AWFx {
     }),
 
     empedLarge = new Effect(40f, e -> {
-        color(Color.valueOf("ffd814"), Color.valueOf("e8b500"), e.fin());
+        color(e.color, e.color.cpy().lerp(Color.white, 0.7f), e.fin());
 
         stroke(e.fout() * 2.4f);
         randLenVectors(e.id, 4, 7 + 50 * e.fin(), (x, y) -> {

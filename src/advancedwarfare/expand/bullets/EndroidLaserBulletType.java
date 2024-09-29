@@ -15,14 +15,23 @@ import mindustry.gen.Bullet;
 import mindustry.graphics.*;
 
 public class EndroidLaserBulletType extends LaserBulletType {
+    protected float bulletLength = 460f;
+    protected float bulletDamage = 800f;
+    protected float bulletWidth = 45f;
     public float height = 30f;
     public Color backColor = Pal.bulletYellowBack, frontColor = Color.white;
 
+    public EndroidLaserBulletType(float length, float damage, float width) {
+        this();
+        this.length = length;
+        this.damage = damage;
+        this.width = width;
+    }
     public EndroidLaserBulletType() {
         super();
-        length = 320f;
-        damage = 500f;
-        width = 35f;
+        length = bulletLength;
+        damage = bulletDamage;
+        width = bulletWidth;
 
         status = StatusEffects.electrified;
         statusDuration = 120f;
@@ -33,8 +42,8 @@ public class EndroidLaserBulletType extends LaserBulletType {
         splashDamageRadius = 120;
         hitShake = 12f;
 
-        lightningSpacing = 35f;
-        lightningLength = 8;
+        lightningSpacing = 20f;
+        lightningLength = 5;
         lightningDelay = 1.1f;
         lightningLengthRand = 15;
         lightningDamage = 100;

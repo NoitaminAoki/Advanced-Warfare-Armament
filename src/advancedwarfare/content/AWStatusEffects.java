@@ -5,7 +5,7 @@ import mindustry.content.Fx;
 import mindustry.type.StatusEffect;
 
 public class AWStatusEffects {
-    public static StatusEffect empSmall, empHigh, absoluteFreezing;
+    public static StatusEffect empSmall, empHigh, absoluteFreezing, electricRooting;
 
     public static void load() {
         empSmall = new StatusEffect("emp-small") {{
@@ -20,7 +20,7 @@ public class AWStatusEffects {
 
         empHigh = new StatusEffect("emp-high") {{
             color = AWColor.electric;
-            damage = 0.2f;
+            damage = 0.5f;
             effect = AWFx.empedLarge;
             speedMultiplier = 0f;
             disarm = true;
@@ -36,6 +36,13 @@ public class AWStatusEffects {
             init(() -> {
                 opposite(StatusEffects.melting, StatusEffects.burning);
             });
+        }};
+
+        electricRooting = new StatusEffect("electric-rooting") {{
+            color = AWColor.electric;
+            damage = 0.2f;
+            effect = AWFx.empedSmall;
+            speedMultiplier = 0f;
         }};
     }
 }

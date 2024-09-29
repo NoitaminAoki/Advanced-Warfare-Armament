@@ -760,7 +760,7 @@ public class DefenseModule {
                             under = true;
                             moveX = 2f;
                             moveY = 2.5f;
-                            moveRot = -2f;
+                            moveRot = -1f;
                         }},
                         new RegionPart("-top") {{
                             moveY = -0.5f;
@@ -794,37 +794,33 @@ public class DefenseModule {
             velocityRnd = 0.15f;
         }};
 
-//        endroidMionizer = new ContinuousTurret("test-endroid-mionizer") {{
-//            requirements(Category.turret, with(Items.graphite, 100, Items.titanium, 120, Items.silicon, 85, Items.plastanium, 15, Items.surgeAlloy, 5), true);
-//
-//            shootType = new PointLaserBulletType(){{
-//                damage = 200f;
-//                speed = 3;
-//                buildingDamageMultiplier = 0.3f;
-//                hitColor = AWColor.fireRed;
-//            }};
-//            drawer = new DrawTurret();
-//            consumePower(5f);
-//
-//            shootSound = Sounds.none;
-//            loopSoundVolume = 1f;
-//            loopSound = Sounds.laserbeam;
-//
-//            shootWarmupSpeed = 0.08f;
-//            shootCone = 20f;
-//
-//            rotateSpeed = 5f;
-//
-//            shootY = 0.5f;
-//            outlineColor = Pal.darkOutline;
-//            size = 4;
-//            range = 710f;
-//            scaledHealth = 210;
-//
-//            unitSort = UnitSorts.strongest;
-//
-//            consumeLiquid(Liquids.cryofluid, 3f / 60f);
-//        }};
+        endroidMionizer =  new PowerTurret("endroid-mionizer") {{
+            requirements(Category.turret, with(Items.graphite, 100, Items.titanium, 120, Items.silicon, 85, Items.plastanium, 15, Items.surgeAlloy, 5), true);
+
+            shootType = AWBullets.ionizerTech;
+
+            size = 4;
+            drawer = new DrawTurret("reinforced-");
+
+            shoot = new ShootPattern() {{
+                shots = 1;
+//                firstShotDelay = 2f;
+//                shotDelay = 10f;
+            }};
+            consumePower(15f);
+            shootY = 4f;
+
+            outlineColor = Pal.darkOutline;
+            reload = 90f;
+            range = 460;
+            shootCone = 10f;
+            scaledHealth = 450;
+            rotateSpeed = 6f;
+            recoil = 0.5f;
+            shake = 1f;
+            inaccuracy = 1f;
+            velocityRnd = 0.15f;
+        }};
 
         mightydao = new PowerTurret("mightydao") {{
             requirements(Category.turret, with(Items.graphite, 200, Items.titanium, 200, Items.silicon, 350, Items.plastanium, 20, Items.surgeAlloy, 5), true);
@@ -935,16 +931,18 @@ public class DefenseModule {
         }};
 
         ultimateForceProjector= new UltimateForceProjector("ultimate-force-projector"){{
-            requirements(Category.effect, with(Items.lead, 150, Items.titanium, 125, Items.phaseFabric, 25, Items.surgeAlloy, 30, Items.silicon, 125));
+            requirements(Category.effect, with(Items.lead, 150, Items.titanium, 125, Items.phaseFabric, 25, Items.surgeAlloy, 30, Items.silicon, 125), true);
             size = 4;
-            phaseRadiusBoost = 50f;
-            radius = 300f;
-            shieldHealth = 5750f;
+            phaseRadiusBoost = 30f;
+            phaseShieldBoost = 2000f;
+            radius = 250f;
+            shieldHealth = 8750f;
             cooldownNormal = 1.5f;
             cooldownLiquid = 1f;
             cooldownBrokenBase = 0.55f;
 
             itemConsumer = consumeItem(Items.phaseFabric).boost();
+            enhanceConsumer = consumeItem(Items.surgeAlloy).boost();
             consumePower(12f);
         }};
     }

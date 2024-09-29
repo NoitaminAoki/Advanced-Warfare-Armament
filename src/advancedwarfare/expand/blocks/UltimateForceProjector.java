@@ -2,12 +2,14 @@ package advancedwarfare.expand.blocks;
 
 import advancedwarfare.content.AWStats;
 import advancedwarfare.content.AWStatusEffects;
+import arc.Core;
 import arc.func.*;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Intersector;
 import arc.util.Log;
 import arc.util.Nullable;
+import arc.util.Strings;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.entities.Units;
@@ -17,6 +19,7 @@ import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.ForceProjector;
 import mindustry.world.consumers.Consume;
 import mindustry.world.consumers.ConsumeItems;
+import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValues;
 
@@ -43,15 +46,14 @@ public class UltimateForceProjector extends ForceProjector {
     }
 
     @Override
-    public void setStats() {
+    public void setStats(){
         super.setStats();
         boolean consItems = enhanceConsumer != null;
 
         if(consItems) stats.timePeriod = phaseUseTime;
 
         if(consItems && enhanceConsumer instanceof ConsumeItems coni) {
-            stats.remove(AWStats.itemEnhancement);
-            stats.add(AWStats.itemEnhancement, StatValues.itemBoosters("+{0} " + StatUnit.shieldHealth.localized(), stats.timePeriod, 0, 0, coni.items, this::consumesItem));
+            stats.add(Stat.booster, StatValues.itemBoosters(Core.bundle.get("aw.stat.percent") + Strings.autoFixed(100, 0), stats.timePeriod, 0, 0, coni.items, this::consumesItem));
         }
     }
 

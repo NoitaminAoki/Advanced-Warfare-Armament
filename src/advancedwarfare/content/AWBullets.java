@@ -1,8 +1,10 @@
 package advancedwarfare.content;
 
+import advancedwarfare.AdvancedWarfare;
 import advancedwarfare.expand.bullets.AccelBulletType;
 import advancedwarfare.expand.bullets.EndroidLaserBulletType;
 import advancedwarfare.util.func.AWFunc;
+import advancedwarfare.util.func.AWInterp;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -105,7 +107,6 @@ public class AWBullets {
             frontColor = Color.white;
             trailWidth = 3f;
             trailLength = 12;
-            hitEffect = despawnEffect = Fx.hitBulletColor;
             buildingDamageMultiplier = 0.5f;
 
             trailEffect = Fx.colorSpark;
@@ -128,13 +129,27 @@ public class AWBullets {
             despawnShake = 3f;
 
             fragBullets = 3;
-            fragBullet = new EndroidLaserBulletType(250f, 500f, 25f);
+            fragBullet = new EndroidLaserBulletType(250f, 300f, 30f);
 
             fragRandomSpread = 0f;
-            fragSpread = 120f;
+            fragSpread = 15f;
 
             splashDamage = 50f;
             hitEffect = AWFx.hitSparkLarge;
+            smokeEffect = AWFx.lightningHitLarge;
+
+            hitEffect = new Effect(90, e -> {
+                Draw.color(backColor, frontColor, e.fout() * 0.7f);
+                Fill.circle(e.x, e.y, e.fout() * height / 1.25f);
+                Lines.stroke(e.fout() * 3f);
+                Lines.circle(e.x, e.y, e.fin() * 80);
+                Lines.stroke(e.fout() * 2f);
+                Lines.circle(e.x, e.y, e.fin() * 50);
+                Angles.randLenVectors(e.id, 35, 18 + 100 * e.fin(), (x, y) -> lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 12 + 4));
+
+                Draw.color(frontColor);
+                Fill.circle(e.x, e.y, e.fout() * height / 1.75f);
+            });
             despawnEffect = AWFx.hitSparkHuge;
             collidesGround = true;
         }};
@@ -148,9 +163,44 @@ public class AWBullets {
 
             hitSize = 7f;
             shootEffect = Fx.shootSmokeSquareBig;
+//            shootEffect = new MultiEffect(
+//                    new WaveEffect(){{
+//                        lifetime = 35f;
+//                        sizeFrom = 0;
+//                        sizeTo = 20;
+//                        lightColor = Color.valueOf("66B1FFFF");
+//                        interp = Interp.circleOut;
+//                        strokeFrom = 4;
+//                        strokeTo = 0;
+//                        colorFrom = Color.valueOf("66B1FFFF");
+//                        colorTo = Color.valueOf("66B1FFFF");
+//                    }},
+//                    new ParticleEffect() {{
+//                        particles = 1;
+//                        sizeFrom = 9;
+//                        sizeTo = 0;
+//                        length = 0;
+//                        layer = 144;
+//                        region = AdvancedWarfare.name("plasma-medium-back");
+//                        interp = Interp.swing;
+//                        lifetime = 50;
+//                        colorFrom = Color.valueOf("000000FF");
+//                        colorTo = Color.valueOf("000000FF");
+//                    }},
+//                    new ParticleEffect() {{
+//                        particles = 1;
+//                        sizeFrom = 10;
+//                        sizeTo = 0;
+//                        length = 0;
+//                        interp = Interp.swing;
+//                        lifetime = 50;
+//                        colorFrom = Color.valueOf("66B1FFFF");
+//                        colorTo = Color.valueOf("66B1FFFF");
+//                    }}
+//            );
             smokeEffect = Fx.shootSmokeDisperse;
             ammoMultiplier = 1;
-            hitColor = backColor = trailColor = lightningColor = AWColor.electric;
+            hitColor = backColor = trailColor = lightningColor = AWColor.golden;
             frontColor = Color.white;
             trailWidth = 3f;
             trailLength = 12;
@@ -160,38 +210,35 @@ public class AWBullets {
             trailEffect = Fx.colorSpark;
             trailRotation = true;
             trailInterval = 3f;
-            lightning = 1;
-            lightningCone = 15f;
-            lightningLength = 20;
-            lightningLengthRand = 30;
-            lightningDamage = 20f;
 
             homingPower = 0.17f;
             homingDelay = 19f;
             homingRange = 160f;
 
-//            explodeRange = 160f;
-//            explodeDelay = 0f;
+            explodeRange = 160f;
+            explodeDelay = 0f;
 
-//            flakInterval = 20f;
+            flakInterval = 20f;
             despawnShake = 3f;
 
             fragBullets = 1;
             fragBullet = new BasicBulletType(0f, 1) {{
-                width = 12f;
-                height = 22f;
+                sprite = "large-orb";
+                shrinkX = shrinkY = 0f;
+                width = height = 16f;
                 ammoMultiplier = 1f;
-                spin = 5f;
-                sprite = "missile-large";
+//                spin = 3f;
                 lifetime = 550f;
-                intervalBullet = new AccelBulletType(2f, 180){
+
+                intervalBullet = new AccelBulletType(2f, 80){
                     {
-                        width = 22f;
-                        height = 40f;
+                        backColor = lightningColor = trailColor = hitColor = lightColor = AWColor.golden;
+                        width = 11f;
+                        height = 20f;
 
                         velocityBegin = 1f;
                         velocityIncrease = 11f;
-//                        accelInterp = NHInterp.inOut;
+                        accelInterp = AWInterp.inOut;
                         accelerateBegin = 0.045f;
                         accelerateEnd = 0.675f;
 
@@ -202,9 +249,9 @@ public class AWBullets {
                         trailLength = 30;
                         trailWidth = 3f;
 
-                        lifetime = 160f;
+                        lifetime = 60f;
 
-//                        trailEffect = AWFx.trailFromWhite;
+                        trailEffect = AWFx.trailFromWhite;
 
                         pierceArmor = true;
                         trailRotation = false;
@@ -231,7 +278,7 @@ public class AWBullets {
 
                         despawnHit = false;
 
-                        rangeOverride = 480f;
+                        rangeOverride = 320f;
                     }};
 //                intervalBullet = new BasicBulletType(9.7f, 50){{
 //                    width = 8f;
@@ -282,8 +329,7 @@ public class AWBullets {
 //                }};
 
                 bulletInterval = 10f;
-                intervalBullets = 2;
-                intervalDelay = 2f;
+                intervalBullets = 1;
             }};
         }};
 

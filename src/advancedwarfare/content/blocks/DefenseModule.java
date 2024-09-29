@@ -769,9 +769,9 @@ public class DefenseModule {
             }};
 
             shoot = new ShootPattern() {{
-                shots = 4;
+                shots = 3;
                 firstShotDelay = 2f;
-                shotDelay = 10f;
+                shotDelay = 15f;
             }};
             warmupMaintainTime = 30f;
             consumePower(15f);
@@ -790,7 +790,7 @@ public class DefenseModule {
             recoil = 0.5f;
             recoilTime = 30f;
             shake = 3f;
-            inaccuracy = 4f;
+            inaccuracy = 6f;
             velocityRnd = 0.15f;
         }};
 
@@ -937,9 +937,10 @@ public class DefenseModule {
             phaseShieldBoost = 2000f;
             radius = 250f;
             shieldHealth = 8750f;
-            cooldownNormal = 1.5f;
-            cooldownLiquid = 1f;
-            cooldownBrokenBase = 0.55f;
+            cooldownNormal = 2.5f;
+            cooldownLiquid = 2.25f;
+            cooldownBrokenBase = 2f;
+            scaledHealth = 2500f;
 
             itemConsumer = consumeItem(Items.phaseFabric).boost();
             enhanceConsumer = consumeItem(Items.surgeAlloy).boost();

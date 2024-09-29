@@ -7,7 +7,6 @@ import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.Rand;
 import arc.util.Log;
-import mindustry.Vars;
 import mindustry.graphics.Drawf;
 import mindustry.entities.Effect;
 import mindustry.content.Fx;
@@ -15,6 +14,7 @@ import mindustry.content.Fx;
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.randLenVectors;
+import static mindustry.Vars.tilesize;
 
 public class AWFx {
     private static final Rand rand = new Rand();
@@ -109,7 +109,7 @@ public class AWFx {
 
     trailToGray = new Effect(50.0F, e -> {
         Draw.color(e.color, Color.gray, e.fin());
-        randLenVectors(e.id, 2, Vars.tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
+        randLenVectors(e.id, 2, tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
     }),
 
     lightningHitLarge = new Effect(50f, 180f, e -> {
@@ -135,5 +135,10 @@ public class AWFx {
             float ang = Mathf.angle(x, y);
             lineAngle(e.x + x, e.y + y, ang, e.fout() * rand.random(6, 9) + 3f);
         });
+    }),
+
+    trailFromWhite = new Effect(50.0F, e -> {
+        Draw.color(e.color, Color.white, e.fout() * 0.35f);
+        randLenVectors(e.id, 2, tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
     });
 }

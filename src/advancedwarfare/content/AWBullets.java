@@ -136,7 +136,7 @@ public class AWBullets {
 
             splashDamage = 50f;
             hitEffect = AWFx.hitSparkLarge;
-            smokeEffect = AWFx.lightningHitLarge;
+//            smokeEffect = AWFx.lightningHitLarge;
 
             hitEffect = new Effect(90, e -> {
                 Draw.color(backColor, frontColor, e.fout() * 0.7f);
@@ -154,7 +154,7 @@ public class AWBullets {
             collidesGround = true;
         }};
 
-        ionizerTech = new FlakBulletType(8f, 70f){{
+        ionizerTech = new FlakBulletType(8f, 300f){{
             sprite = "missile-large";
 
             lifetime = 45f;
@@ -223,14 +223,15 @@ public class AWBullets {
 
             fragBullets = 1;
             fragBullet = new BasicBulletType(0f, 1) {{
+                hittable = false;
                 sprite = "large-orb";
                 shrinkX = shrinkY = 0f;
                 width = height = 16f;
                 ammoMultiplier = 1f;
 //                spin = 3f;
-                lifetime = 550f;
+                lifetime = 400f;
 
-                intervalBullet = new AccelBulletType(2f, 80){
+                intervalBullet = new AccelBulletType(2f, 150){
                     {
                         backColor = lightningColor = trailColor = hitColor = lightColor = AWColor.golden;
                         width = 11f;

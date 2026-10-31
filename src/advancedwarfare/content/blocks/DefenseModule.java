@@ -234,7 +234,7 @@ public class DefenseModule {
             rotateSpeed = 10f;
             inaccuracy = 2.5f;
             shootCone = 30f;
-            shootSound = Sounds.shootSnap;
+            shootSound = Sounds.shootCyclone;
             coolant = consumeCoolant(0.25f);
 
             scaledHealth = 200;
@@ -272,7 +272,7 @@ public class DefenseModule {
                 );
             }};
 
-            shootSound = Sounds.shootAlt;
+            shootSound = Sounds.shootDisperse;
             outlineColor = Pal.darkOutline;
             size = 3;
             reload = 10f;
@@ -345,7 +345,7 @@ public class DefenseModule {
             scaledHealth = 280;
             moveWhileCharging = true;
             accurateDelay = true;
-            shootSound = Sounds.laser;
+            shootSound = Sounds.shootLaser;
             maxAmmo = 40;
             rotateSpeed = 6f;
             shootCone = 5f;
@@ -358,7 +358,7 @@ public class DefenseModule {
 
         lockmirrae = new ItemTurret("lockmirrae") {{
             requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon, 110, Items.graphite, 150), true);
-            shootSound = Sounds.missileSmall;
+            shootSound = Sounds.shootMissileSmall;
             ammo(
                     Items.silicon, new BulletType(){{
                         shootEffect = Fx.shootBig;
@@ -486,7 +486,7 @@ public class DefenseModule {
 
         attaraxia = new ItemTurret("attaraxia") {{
             requirements(Category.turret, with(Items.copper, 180, Items.lead, 140, Items.silicon, 120, Items.titanium, 80), true);
-            shootSound = Sounds.blaster;
+            shootSound = Sounds.shootBeamPlasmaSmall;
 
             ammo(
                     Items.graphite,  new BasicBulletType(5f, 60){{
@@ -591,7 +591,7 @@ public class DefenseModule {
             rotateSpeed = 5f;
             shootCone = 30f;
             consumeAmmoOnce = true;
-            shootSound = Sounds.shootBig;
+            shootSound = Sounds.shootArtillery;
 
             drawer = new DrawTurret("reinforced-"){{
                 parts.add(new RegionPart("-side"){{
@@ -653,7 +653,7 @@ public class DefenseModule {
             rotateSpeed = 4f;
             shootCone = 80;
             consumeAmmoOnce = true;
-            shootSound = Sounds.missileSmall;
+            shootSound = Sounds.shootMissileSmall;
             size = 4;
             range = 630;
 
@@ -859,9 +859,9 @@ public class DefenseModule {
                     waveStroke = 4f;
                     waveRad = 40f;
                 }};
-                despawnSound = Sounds.dullExplosion;
+                despawnSound = Sounds.explosionDull;
 
-                shootSound = Sounds.cannon;
+                shootSound = Sounds.shootRipple;
 
                 fragBullet = intervalBullet = new BasicBulletType(3f, 65){{
                     width = 9f;

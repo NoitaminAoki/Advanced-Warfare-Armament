@@ -347,7 +347,7 @@ public class AWBullets {
             accelerateBegin = 0.15f;
             accelerateEnd = 0.95f;
 
-            despawnSound = hitSound = Sounds.titanExplosion;
+            despawnSound = hitSound = Sounds.explosionTitan;
 
             velocityBegin = 8f;
             velocityIncrease = -7.5f;
